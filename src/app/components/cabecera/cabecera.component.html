@@ -1,0 +1,39 @@
+<ion-header mode="ios" >
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title style="background-color: #57C5B6;">
+      Chess199
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openMenu()">
+        <ion-icon slot="icon-only" name="settings"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-menu side="end" >
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Opciones</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item>
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label>Mi perfil</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="settings-outline" slot="start"></ion-icon>
+        <ion-label>Configuración</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        <ion-label>Cerrar sesión</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
