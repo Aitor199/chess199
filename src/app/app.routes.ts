@@ -15,14 +15,16 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/inicio/inicio.page').then( m => m.InicioPage)
   },
   {
-    path: 'ajedrez',
-    loadComponent: () => import('./pages/ajedrez/ajedrez.page').then( m => m.AjedrezPage)
+    path: 'modos-ajedrez',
+    loadComponent: () => import('./pages/modos-ajedrez/modos-ajedrez.page').then( m => m.ModosAjedrezPage)
   },
   {
-    path: 'modos',
-    loadComponent: () => import('./pages/modos/modos.page').then( m => m.ModosPage)
+    path: 'modos-tres-en-raya',
+    loadComponent: () => import('./pages/modos-tres-en-raya/modos-tres-en-raya.page').then( m => m.ModosTresEnRayaPage)
   },
-
-
+  {
+    path: 'modos-damas',
+    loadComponent: () => import('./pages/modos-damas/modos-damas.page').then( m => m.ModosDamasPage)
+  },
 
 ];

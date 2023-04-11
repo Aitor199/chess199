@@ -5,7 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import { CabeceraComponent } from "../../components/cabecera/cabecera.component";
 import { PieComponent } from '../../components/pie/pie.component';
 import { Router } from '@angular/router';
-import { VariablesCompartidasService } from 'src/app/variables-compartidas.service';
 
 
 @Component({
@@ -18,7 +17,7 @@ import { VariablesCompartidasService } from 'src/app/variables-compartidas.servi
 export class InicioPage implements OnInit {
 
   excluido = 'inicio';
-  constructor(private router: Router, private variablesCompartidas: VariablesCompartidasService) {
+  constructor(private router: Router) {
 
   }
 
@@ -28,19 +27,15 @@ export class InicioPage implements OnInit {
 
   }
   ajedrez() {
-    this.variablesCompartidas.nombre = 'ajedrez';
-    this.router.navigate(['/modos']);
+    this.router.navigate(['/modos-ajedrez']);
   }
   tresEnRaya() {
-    this.variablesCompartidas.nombre = 'tresEnRaya';
-    this.router.navigate(['/modos']);
+    this.router.navigate(['/modos-tres-en-raya']);
   }
   damas() {
-    this.variablesCompartidas.nombre = 'damas';
-    this.router.navigate(['/modos']);
+    this.router.navigate(['/modos-damas']);
   }
   continuara() {
-    this.variablesCompartidas.nombre = 'continuara';
-    this.router.navigate(['/modos']);
+    
   }
 }
