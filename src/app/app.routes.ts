@@ -14,4 +14,15 @@ export const routes: Routes = [
     path: 'inicio',
     loadComponent: () => import('./pages/inicio/inicio.page').then( m => m.InicioPage)
   },
+  {
+    path: 'ajedrez',
+    loadComponent: () => import('./pages/ajedrez/ajedrez.page').then( m => m.AjedrezPage)
+  },
+  {
+    path: 'modos',
+    loadComponent: () => import('./pages/modos/modos.page').then( m => m.ModosPage)
+  },
+
+
+
 ];

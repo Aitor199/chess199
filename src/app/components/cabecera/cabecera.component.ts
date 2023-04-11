@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonPopover, IonicModule } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cabecera',
@@ -13,10 +14,24 @@ import { MenuController } from '@ionic/angular';
 })
 export class CabeceraComponent {
 
-  constructor(private menuController: MenuController) { }
+  constructor(private router: Router){}
+  isPopoverOpen = false;
+  @Input () ex!:string;
+  @ViewChild ('menu', {static:true}) menu!:IonPopover;
+  
 
-  openMenu() {
-    this.menuController.toggle();
+  openMenu(ev: Event) {
+    this.menu.event = ev;
+    this.isPopoverOpen = true;
+    
   }
+  back(){
+    this.router.navigate(['/inicio']);
+  }
+
+  cuenta(){}
+  ajustes(){}
+  cerrarSesion(){}
+  acercaDe(){}
   
 }
