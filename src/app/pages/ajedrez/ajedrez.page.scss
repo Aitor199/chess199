@@ -1,0 +1,22 @@
+.board {
+    width: 50%;
+    height: 80%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin: auto;
+    margin-top: 3%;
+  }
+  
+  td {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+  }
+  
+  td.white {
+    background-color: white;
+  }
+  
+  td:not(.white) {
+    background-color: #663300;
+  }

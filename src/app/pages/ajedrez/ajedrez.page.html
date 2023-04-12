@@ -1,4 +1,19 @@
 <app-cabecera></app-cabecera>
-<app-tablero></app-tablero>
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            Tablero de Ajedrez
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <table class="board">
+        <tr *ngFor="let row of rows">
+            <ng-container *ngFor="let col of cols">
+                <td [id]="" [class.white]="isWhite(row, col)"></td>
+            </ng-container>
+        </tr>
+    </table>
+</ion-content>
 <app-pie></app-pie>
 

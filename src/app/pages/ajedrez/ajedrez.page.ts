@@ -36,4 +36,11 @@ export class AjedrezPage implements OnInit {
   ajustes() { }
   cerrarSesion() { }
   acercaDe() { }
+  rows = [8, 7, 6, 5, 4, 3, 2, 1];
+  cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
+  isWhite(row: number, col: string) {
+    return (row % 2 === 0 && this.cols.indexOf(col) % 2 === 0) ||
+           (row % 2 === 1 && this.cols.indexOf(col) % 2 === 1);
+  }
 }
