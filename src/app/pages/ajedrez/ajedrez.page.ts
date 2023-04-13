@@ -16,6 +16,17 @@ import { Router } from '@angular/router';
 })
 export class AjedrezPage implements OnInit {
 
+  piezas = [
+    ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
+    ['PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro'],
+    ['', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', ''],
+    ['PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco'],
+    ['TorreBlanca', 'CaballoBlanco', 'AlfilBlanco', 'ReinaBlanca', 'ReyBlanco', 'AlfilBlanco', 'CaballoBlanco', 'TorreBlanca']
+  ];
+
   constructor(private router: Router) { }
 
   ngOnInit() {
@@ -38,9 +49,15 @@ export class AjedrezPage implements OnInit {
   acercaDe() { }
   rows = [8, 7, 6, 5, 4, 3, 2, 1];
   cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-
+  nombreCasilla = 'x2';
   isWhite(row: number, col: string) {
+    this.nombreCasilla = `${col + row}`;
+
+
     return (row % 2 === 0 && this.cols.indexOf(col) % 2 === 0) ||
-           (row % 2 === 1 && this.cols.indexOf(col) % 2 === 1);
+      (row % 2 === 1 && this.cols.indexOf(col) % 2 === 1);
+  }
+  casilla(ev: any) {
+    console.log(ev.target);
   }
 }
