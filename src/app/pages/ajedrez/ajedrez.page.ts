@@ -51,7 +51,7 @@ export class AjedrezPage implements OnInit {
   acercaDe() { }
   rows = [8, 7, 6, 5, 4, 3, 2, 1];
   cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-  nombreCasilla = 'x2';
+  nombreCasilla = '';
   isWhite(row: number, col: string) {
     this.nombreCasilla = `${col + row}`;
     return (row % 2 === 0 && this.cols.indexOf(col) % 2 === 0) ||
