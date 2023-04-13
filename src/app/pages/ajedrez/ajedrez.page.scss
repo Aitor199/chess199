@@ -16,7 +16,7 @@
     vertical-align: middle;
     padding: 0;
     border: 1px solid black;
-    cursor: pointer;
+
 
   }
   
@@ -29,4 +29,8 @@
   }
   .selected {
     background-color: yellow;
+  }
+
+  .pieza{
+    cursor: pointer;
   }

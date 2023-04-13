@@ -52,12 +52,26 @@ export class AjedrezPage implements OnInit {
   nombreCasilla = 'x2';
   isWhite(row: number, col: string) {
     this.nombreCasilla = `${col + row}`;
-
-
     return (row % 2 === 0 && this.cols.indexOf(col) % 2 === 0) ||
       (row % 2 === 1 && this.cols.indexOf(col) % 2 === 1);
   }
   casilla(ev: any) {
     console.log(ev.target);
+    console.log(this.conversor(ev.target.id));
+    
+  }
+
+  conversor(posicion:string){
+    switch(posicion){
+      case 'a8': return '00';
+      case 'b8': return '01';
+      case 'c8': return '02';
+      case 'd8': return '03';
+      case 'e8': return '04';
+      case 'f8': return '05';
+      case 'g8': return '06';
+      case 'h8': return '07';
+      default: return '';
+    }
   }
 }
