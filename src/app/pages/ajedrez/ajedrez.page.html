@@ -11,7 +11,7 @@
         <tr *ngFor="let row of rows; let i = index">
           <ng-container *ngFor="let col of cols; let j = index">
             <td [id]="nombreCasilla" [class.white]="isWhite(row, col)" (click)="casilla($event)">
-              <div [id]="nombreCasilla" *ngIf="piezas[i][j]">
+              <div [id]="nombreCasilla" *ngIf="piezas[i][j]" class="back">
                 <img [id]="nombreCasilla" class="pieza" src="../../../assets/piezas/{{piezas[i][j]}}.png" alt="{{piezas[i][j]}}">
               </div>
             </td>

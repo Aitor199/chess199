@@ -16,6 +16,8 @@ import { Router } from '@angular/router';
 })
 export class AjedrezPage implements OnInit {
 
+  backCasilla: string = "prueba";
+
   piezas = [
     ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
     ['PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro'],
@@ -58,7 +60,9 @@ export class AjedrezPage implements OnInit {
   casilla(ev: any) {
     console.log(ev.target);
     console.log(this.conversor(ev.target.id));
-    
+    if (this.conversor(ev.target.id) === '10') {
+      ev.target.style.backgroundColor = "grey";
+    }
   }
 
   conversor(posicion:string){
@@ -71,6 +75,15 @@ export class AjedrezPage implements OnInit {
       case 'f8': return '05';
       case 'g8': return '06';
       case 'h8': return '07';
+
+      case 'a7': return '10';
+      case 'b7': return '11';
+      case 'c7': return '12';
+      case 'd7': return '13';
+      case 'e7': return '14';
+      case 'f7': return '15';
+      case 'g7': return '16';
+      case 'h7': return '17';
       default: return '';
     }
   }
