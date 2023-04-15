@@ -61,7 +61,8 @@ export class AjedrezPage implements OnInit {
     console.log(ev.target);
     console.log(this.conversor(ev.target.id));
     if (this.conversor(ev.target.id) === '10') {
-      ev.target.style.backgroundColor = "grey";
+    const casilla: any = document.getElementById('a6');
+    casilla.classList.add('posibilidades');
     }
   }
 
