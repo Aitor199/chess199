@@ -31,6 +31,7 @@ export class AjedrezPage implements OnInit {
   idPieza!: datosPieza;
   PiezaAnterior!: datosPieza;
   turnoBlanco: boolean = true;
+  ultimoMovimiento: any;
 
   piezas = [
     ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
@@ -76,7 +77,7 @@ export class AjedrezPage implements OnInit {
     let posicion1: number = parseInt(posArray[0]);
     let posicion2: number = parseInt(posArray[1]);
     if (this.piezas[posicion1][posicion2].includes('Blanco') || this.piezas[posicion1][posicion2].includes('Blanca')) {
-      this.colorPieza = 'blanco'  
+      this.colorPieza = 'blanco';
     } else {
       this.colorPieza = 'negro'
     }
@@ -86,6 +87,16 @@ export class AjedrezPage implements OnInit {
     } else {
       this.turno = 'negras'
     }
+    let idPieza = this.conversorNumeroLetra(this.ultimoMovimiento);
+    const elemento = document.getElementById(idPieza) as HTMLElement
+    if (!!elemento) {
+
+      let img = elemento.querySelector("img") as HTMLImageElement;
+      if (!!img) {
+        img.classList.add('anularEventos');
+      }
+
+    };
     this.idPieza = {
       id: this.piezas[posicion1][posicion2],
       casilla: this.nombreCasilla,
@@ -103,7 +114,7 @@ export class AjedrezPage implements OnInit {
 
     this.PiezaAnterior = datosPieza;
     console.log(datosPieza);
-    if (this.turno === 'blancas' ) {
+    if (this.turno === 'blancas') {
       if (datosPieza.id === 'PeonBlanco') {
         this.movPeon(datosPieza);
       }
@@ -114,25 +125,25 @@ export class AjedrezPage implements OnInit {
     }
   }
 
-  mouseout(ev:any){
-      const pieza = ev.target as HTMLElement;
-      pieza.classList.remove('cursor');
-    
+  mouseout(ev: any) {
+    const pieza = ev.target as HTMLElement;
+    pieza.classList.remove('cursor');
+
   }
 
-  mouseenter(ev:any){
+  mouseenter(ev: any) {
     const datosPieza: datosPieza = JSON.parse(ev.target.id);
     let posArray = this.conversorLetraNumero(datosPieza.casilla);
     let posicion1: number = parseInt(posArray[0]);
     let posicion2: number = parseInt(posArray[1]);
-    if(this.turno === 'blancas' && this.piezas[posicion1][posicion2].includes('Blanco') || this.piezas[posicion1][posicion2].includes('Blanca')){
+    if (this.turno === 'blancas' && this.piezas[posicion1][posicion2].includes('Blanco') || this.piezas[posicion1][posicion2].includes('Blanca')) {
       const pieza = ev.target as HTMLElement;
       pieza.classList.add('cursor');
-    }else if(this.turno === 'negras' && this.piezas[posicion1][posicion2].includes('Negro') || this.piezas[posicion1][posicion2].includes('Negra')){
+    } else if (this.turno === 'negras' && this.piezas[posicion1][posicion2].includes('Negro') || this.piezas[posicion1][posicion2].includes('Negra')) {
       const pieza = ev.target as HTMLElement;
       pieza.classList.add('cursor');
     }
-    
+
   }
 
   casilla(ev: any) {
@@ -148,8 +159,20 @@ export class AjedrezPage implements OnInit {
       numero1 = parseInt(this.conversorLetraNumero(idCasilla)[0]);
       numero2 = parseInt(this.conversorLetraNumero(idCasilla)[1]);
       this.borrarPosibilidades();
+      let idPieza = this.conversorNumeroLetra(this.ultimoMovimiento);
+      const elemento = document.getElementById(idPieza) as HTMLElement
+      if (!!elemento) {
+
+        let img = elemento.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          img.classList.remove('anularEventos');
+        }
+
+      };
+      this.ultimoMovimiento = (String(numero1) + String(numero2));
       this.piezas[numero1][numero2] = this.PiezaAnterior.id;
       this.numeroTurno++;
+
     }
   }
 
@@ -286,7 +309,7 @@ export class AjedrezPage implements OnInit {
         if (!!img) {
           datosPiezaAtacada = JSON.parse(img.id)
         }
-        casilla.classList.add('posibilidades');
+
         pos1 = parseInt(posibilidades[0]);
         pos2 = parseInt(posibilidades[1]);
         if (this.piezas[pos1][pos2] !== '' && datos.color !== datosPiezaAtacada!.color) {
