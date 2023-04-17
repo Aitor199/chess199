@@ -34,7 +34,12 @@
     width: 60px;
   }
   .cursor{
+    border: 2px solid yellow;
     cursor: pointer;
+  }
+
+  .anularEventos{
+    pointer-events: none;
   }
 
   .imgPiezas {

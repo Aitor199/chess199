@@ -100,9 +100,10 @@ export class AjedrezPage implements OnInit {
   pieza(ev: any) {
     this.borrarPosibilidades();
     const datosPieza: datosPieza = JSON.parse(ev.target.id);
+
     this.PiezaAnterior = datosPieza;
     console.log(datosPieza);
-    if (this.turno === 'blancas') {
+    if (this.turno === 'blancas' ) {
       if (datosPieza.id === 'PeonBlanco') {
         this.movPeon(datosPieza);
       }
@@ -111,6 +112,27 @@ export class AjedrezPage implements OnInit {
         this.movPeon(datosPieza);
       }
     }
+  }
+
+  mouseout(ev:any){
+      const pieza = ev.target as HTMLElement;
+      pieza.classList.remove('cursor');
+    
+  }
+
+  mouseenter(ev:any){
+    const datosPieza: datosPieza = JSON.parse(ev.target.id);
+    let posArray = this.conversorLetraNumero(datosPieza.casilla);
+    let posicion1: number = parseInt(posArray[0]);
+    let posicion2: number = parseInt(posArray[1]);
+    if(this.turno === 'blancas' && this.piezas[posicion1][posicion2].includes('Blanco') || this.piezas[posicion1][posicion2].includes('Blanca')){
+      const pieza = ev.target as HTMLElement;
+      pieza.classList.add('cursor');
+    }else if(this.turno === 'negras' && this.piezas[posicion1][posicion2].includes('Negro') || this.piezas[posicion1][posicion2].includes('Negra')){
+      const pieza = ev.target as HTMLElement;
+      pieza.classList.add('cursor');
+    }
+    
   }
 
   casilla(ev: any) {
