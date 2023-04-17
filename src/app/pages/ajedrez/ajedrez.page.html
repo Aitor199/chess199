@@ -11,7 +11,7 @@
         <tr *ngFor="let col of columnas; let i = index">
           <ng-container *ngFor="let fil of filas; let j = index">
             <td [id]="nombreCasilla" [class.white]="generaTablero(col, fil)" (click)="casilla($event)">
-                <img draggable (click)="pieza($event)" *ngIf="piezas[i][j]" class="imgPiezas" class="pieza"  [id]="idPieza | json" src="../../../assets/piezas/{{piezas[i][j]}}.png" alt="{{piezas[i][j]}}">
+                <img (click)="pieza($event)" *ngIf="piezas[i][j]" class="imgPiezas" class="pieza"  [id]="idPieza | json" src="../../../assets/piezas/{{piezas[i][j]}}.png" alt="{{piezas[i][j]}}">
             </td>
           </ng-container>
         </tr>

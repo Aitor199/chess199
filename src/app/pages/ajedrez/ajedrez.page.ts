@@ -67,16 +67,24 @@ export class AjedrezPage implements OnInit {
   filas = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   nombreCasilla = '';
   colorPieza = '';
+  turno = '';
+  numeroTurno = 0;
 
   generaTablero(row: number, col: string) {
     this.nombreCasilla = `${col + row}`;
     let posArray = this.conversorLetraNumero(this.nombreCasilla);
     let posicion1: number = parseInt(posArray[0]);
     let posicion2: number = parseInt(posArray[1]);
-    if(this.piezas[posicion1][posicion2].includes('Blanco') || this.piezas[posicion1][posicion2].includes('Blanca')){
-      this.colorPieza = 'blanco'
-    }else{
+    if (this.piezas[posicion1][posicion2].includes('Blanco') || this.piezas[posicion1][posicion2].includes('Blanca')) {
+      this.colorPieza = 'blanco'  
+    } else {
       this.colorPieza = 'negro'
+    }
+    if (this.numeroTurno % 2 === 0) {
+      this.turno = 'blancas';
+
+    } else {
+      this.turno = 'negras'
     }
     this.idPieza = {
       id: this.piezas[posicion1][posicion2],
@@ -84,25 +92,24 @@ export class AjedrezPage implements OnInit {
       color: this.colorPieza,
       puedeComer: false,
       moverse: true
-      
     }
-
-
     return (row % 2 === 0 && this.filas.indexOf(col) % 2 === 0) ||
       (row % 2 === 1 && this.filas.indexOf(col) % 2 === 1);
   }
 
   pieza(ev: any) {
+    this.borrarPosibilidades();
     const datosPieza: datosPieza = JSON.parse(ev.target.id);
-      this.borrarPosibilidades();
     this.PiezaAnterior = datosPieza;
     console.log(datosPieza);
-
-    if (datosPieza.id === 'PeonNegro') {
-      this.movPeon(datosPieza);
-    }
-    if (datosPieza.id === 'PeonBlanco') {
-      this.movPeon(datosPieza);
+    if (this.turno === 'blancas') {
+      if (datosPieza.id === 'PeonBlanco') {
+        this.movPeon(datosPieza);
+      }
+    } else if (this.turno === 'negras') {
+      if (datosPieza.id === 'PeonNegro') {
+        this.movPeon(datosPieza);
+      }
     }
   }
 
@@ -120,6 +127,7 @@ export class AjedrezPage implements OnInit {
       numero2 = parseInt(this.conversorLetraNumero(idCasilla)[1]);
       this.borrarPosibilidades();
       this.piezas[numero1][numero2] = this.PiezaAnterior.id;
+      this.numeroTurno++;
     }
   }
 
@@ -185,26 +193,33 @@ export class AjedrezPage implements OnInit {
         }
       }
     }
-// comprobaciones para el ataque de los peones
+    // comprobaciones para el ataque de los peones
     if ((datos.id === 'PeonNegro' || datos.id === 'PeonBlanco') && (datos.casilla[1] !== '1' && datos.casilla[1] !== '8')) {
       let letraPeon = String(datos.casilla[0]);
       let numeroPeon = Number(datos.casilla[1]);
       let posibilidades;
       let pos1;
       let pos2;
-      if(datos.id === 'PeonNegro'){
+      let numeroLetraPeon = this.filas.indexOf(letraPeon);
+      let datosPiezaAtacada: datosPieza;
+
+      if (datos.id === 'PeonNegro') {
         numeroPeon--;
-      }else{
+      } else {
         numeroPeon++;
       }
-      
-      let numeroLetraPeon = this.filas.indexOf(letraPeon);
       if (letraPeon === 'a') {
         numeroLetraPeon++;
         posibilidades = this.conversorLetraNumero(this.filas[numeroLetraPeon] + numeroPeon);
+        let casillaAtacada = document.getElementById(this.filas[numeroLetraPeon] + numeroPeon) as HTMLTableCellElement;
+        let img = casillaAtacada.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+        }
         pos1 = parseInt(posibilidades[0]);
         pos2 = parseInt(posibilidades[1]);
-        if (this.piezas[pos1][pos2] !== '') {
+
+        if (this.piezas[pos1][pos2] !== '' && datos.color !== datosPiezaAtacada!.color) {
           casilla = document.getElementById(this.filas[numeroLetraPeon] + numeroPeon);
           casilla.classList.add('posibilidades');
         }
@@ -212,43 +227,60 @@ export class AjedrezPage implements OnInit {
       } else if (letraPeon === 'h') {
         numeroLetraPeon--;
         posibilidades = this.conversorLetraNumero(this.filas[numeroLetraPeon] + numeroPeon);
+        let casillaAtacada = document.getElementById(this.filas[numeroLetraPeon] + numeroPeon) as HTMLTableCellElement;
+        let img = casillaAtacada.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+        }
         pos1 = parseInt(posibilidades[0]);
         pos2 = parseInt(posibilidades[1]);
-        if (this.piezas[pos1][pos2] !== '') {
+        if (this.piezas[pos1][pos2] !== '' && datos.color !== datosPiezaAtacada!.color) {
           casilla = document.getElementById(this.filas[numeroLetraPeon] + numeroPeon);
           casilla.classList.add('posibilidades');
         }
       } else {
         numeroLetraPeon--;
         posibilidades = this.conversorLetraNumero(this.filas[numeroLetraPeon] + numeroPeon);
+        let casillaAtacada = document.getElementById(this.filas[numeroLetraPeon] + numeroPeon) as HTMLTableCellElement;
+        let img = casillaAtacada.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+        }
         pos1 = parseInt(posibilidades[0]);
         pos2 = parseInt(posibilidades[1]);
-        if (this.piezas[pos1][pos2] !== '') {
+        if (this.piezas[pos1][pos2] !== '' && datos.color !== datosPiezaAtacada!.color) {
           casilla = document.getElementById(this.filas[numeroLetraPeon] + numeroPeon);
+          let casillaAtacada = document.getElementById(this.filas[numeroLetraPeon] + numeroPeon) as HTMLTableCellElement;
+          let img = casillaAtacada.querySelector("img") as HTMLImageElement;
+          if (!!img) {
+            datosPiezaAtacada = JSON.parse(img.id)
+          }
           casilla.classList.add('posibilidades');
         }
         numeroLetraPeon = numeroLetraPeon + 2;
         posibilidades = this.conversorLetraNumero(this.filas[numeroLetraPeon] + numeroPeon);
+        casillaAtacada = document.getElementById(this.filas[numeroLetraPeon] + numeroPeon) as HTMLTableCellElement;
+        img = casillaAtacada.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+        }
+        casilla.classList.add('posibilidades');
         pos1 = parseInt(posibilidades[0]);
         pos2 = parseInt(posibilidades[1]);
-        if (this.piezas[pos1][pos2] !== '') {
+        if (this.piezas[pos1][pos2] !== '' && datos.color !== datosPiezaAtacada!.color) {
           casilla = document.getElementById(this.filas[numeroLetraPeon] + numeroPeon);
           casilla.classList.add('posibilidades');
         }
       }
     }
-    
-
-
-
   }
 
 
   borrarPosibilidades() {
-    for (let i = 0; i < 8; i++) {     
+    for (let i = 0; i < 8; i++) {
       for (let j = 0; j < 8; j++) {
         let casilla: any = document.getElementById(this.filas[i] + this.columnas[j]);
-        
+
         casilla.classList.remove('posibilidades');
       }
 
