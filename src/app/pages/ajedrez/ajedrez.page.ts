@@ -32,6 +32,7 @@ export class AjedrezPage implements OnInit {
   PiezaAnterior!: datosPieza;
   turnoBlanco: boolean = true;
   ultimoMovimiento: any;
+  piezasPosicion: any[][]=[];
 
   piezas = [
     ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
@@ -87,6 +88,15 @@ export class AjedrezPage implements OnInit {
     } else {
       this.turno = 'negras'
     }
+    for (let i = 0; i < this.piezas.length; i++) {
+      for (let j = 0; j < this.piezas.length; j++) {
+        if(this.piezas[i][j] !== ''){
+          // this.piezasPosicion.push(this.piezas[i][j]);
+        }
+       
+      }
+
+    }
     let idPieza = this.conversorNumeroLetra(this.ultimoMovimiento);
     const elemento = document.getElementById(idPieza) as HTMLElement
     if (!!elemento) {
@@ -109,6 +119,8 @@ export class AjedrezPage implements OnInit {
   }
 
   pieza(ev: any) {
+    console.log(this.piezasPosicion);
+    
     this.borrarPosibilidades();
     const datosPieza: datosPieza = JSON.parse(ev.target.id);
 
