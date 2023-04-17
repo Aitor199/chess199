@@ -32,7 +32,12 @@ export class AjedrezPage implements OnInit {
   PiezaAnterior!: datosPieza;
   turnoBlanco: boolean = true;
   ultimoMovimiento: any;
-  piezasPosicion: any[][]=[];
+  columnas = [8, 7, 6, 5, 4, 3, 2, 1];
+  filas = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  nombreCasilla = '';
+  colorPieza = '';
+  turno = '';
+  numeroTurno = 0;
 
   piezas = [
     ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
@@ -65,12 +70,7 @@ export class AjedrezPage implements OnInit {
   ajustes() { }
   cerrarSesion() { }
   acercaDe() { }
-  columnas = [8, 7, 6, 5, 4, 3, 2, 1];
-  filas = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-  nombreCasilla = '';
-  colorPieza = '';
-  turno = '';
-  numeroTurno = 0;
+
 
   generaTablero(row: number, col: string) {
     this.nombreCasilla = `${col + row}`;
@@ -87,15 +87,6 @@ export class AjedrezPage implements OnInit {
 
     } else {
       this.turno = 'negras'
-    }
-    for (let i = 0; i < this.piezas.length; i++) {
-      for (let j = 0; j < this.piezas.length; j++) {
-        if(this.piezas[i][j] !== ''){
-          // this.piezasPosicion.push(this.piezas[i][j]);
-        }
-       
-      }
-
     }
     let idPieza = this.conversorNumeroLetra(this.ultimoMovimiento);
     const elemento = document.getElementById(idPieza) as HTMLElement
@@ -119,8 +110,6 @@ export class AjedrezPage implements OnInit {
   }
 
   pieza(ev: any) {
-    console.log(this.piezasPosicion);
-    
     this.borrarPosibilidades();
     const datosPieza: datosPieza = JSON.parse(ev.target.id);
 
