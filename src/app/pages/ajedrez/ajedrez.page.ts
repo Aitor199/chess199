@@ -7,6 +7,13 @@ import { CabeceraComponent } from 'src/app/components/cabecera/cabecera.componen
 import { PieComponent } from 'src/app/components/pie/pie.component';
 import { Router } from '@angular/router';
 
+interface datosPieza {
+  id: string,
+  casilla: string,
+  jaque?: boolean,
+  puedeComer?:boolean, 
+}
+
 @Component({
   selector: 'app-ajedrez',
   templateUrl: './ajedrez.page.html',
@@ -14,10 +21,13 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, TableroComponent, CabeceraComponent, PieComponent]
 })
+
 export class AjedrezPage implements OnInit {
 
   backCasilla: string = "prueba";
+  idPieza!: datosPieza;
 
+  
   piezas = [
     ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
     ['PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro'],
@@ -58,10 +68,18 @@ export class AjedrezPage implements OnInit {
       (row % 2 === 1 && this.cols.indexOf(col) % 2 === 1);
   }
   casilla(ev: any) {
+    this.idPieza = {
+      id: 'a7',
+      casilla: 'string',
+      jaque: true,
+      puedeComer:false, 
+    }
     console.log(ev.target);
-    console.log(this.conversor(ev.target.id));
-    if (this.conversor(ev.target.id) === '10') {
-    const casilla: any = document.getElementById('a6');
+
+    if (this.conversor(this.idPieza.id) === '10') {
+    let casilla: any = document.getElementById('a6');
+    casilla.classList.add('posibilidades');
+     casilla = document.getElementById('a5');
     casilla.classList.add('posibilidades');
     }
   }
