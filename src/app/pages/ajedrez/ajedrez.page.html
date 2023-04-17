@@ -8,10 +8,10 @@
 </ion-header>
 <ion-content>
     <table class="board">
-        <tr *ngFor="let row of rows; let i = index">
-          <ng-container *ngFor="let col of cols; let j = index">
-            <td [id]="nombreCasilla" [class.white]="isWhite(row, col)" >
-                <img (click)="casilla($event)" *ngIf="piezas[i][j]" class="back" [id]="idPieza | json" class="pieza" src="../../../assets/piezas/{{piezas[i][j]}}.png" alt="{{piezas[i][j]}}">
+        <tr *ngFor="let col of columnas; let i = index">
+          <ng-container *ngFor="let fil of filas; let j = index">
+            <td [id]="nombreCasilla" [class.white]="generaTablero(col, fil)" (click)="casilla($event)">
+                <img draggable (click)="pieza($event)" *ngIf="piezas[i][j]" class="imgPiezas" class="pieza"  [id]="idPieza | json" src="../../../assets/piezas/{{piezas[i][j]}}.png" alt="{{piezas[i][j]}}">
             </td>
           </ng-container>
         </tr>
