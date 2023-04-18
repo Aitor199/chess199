@@ -30,7 +30,6 @@ export class AjedrezPage implements OnInit {
   backCasilla: string = "prueba";
   idPieza!: datosPieza;
   PiezaAnterior!: datosPieza;
-  turnoBlanco: boolean = true;
   ultimoMovimiento: any;
   columnas = [8, 7, 6, 5, 4, 3, 2, 1];
   filas = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
@@ -38,6 +37,8 @@ export class AjedrezPage implements OnInit {
   colorPieza = '';
   turno = '';
   numeroTurno = 0;
+  posicionBlancas!: Set<string>;
+  posicionNegras!: Set<string>;
 
   piezas = [
     ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
@@ -53,6 +54,8 @@ export class AjedrezPage implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
+    this.posicionBlancas = new Set;
+    this.posicionNegras = new Set;
   }
   @ViewChild('menu', { static: true }) menu!: IonPopover;
 
@@ -78,8 +81,10 @@ export class AjedrezPage implements OnInit {
     let posicion1: number = parseInt(posArray[0]);
     let posicion2: number = parseInt(posArray[1]);
     if (this.piezas[posicion1][posicion2].includes('Blanco') || this.piezas[posicion1][posicion2].includes('Blanca')) {
+      this.posicionBlancas.add(this.nombreCasilla);
       this.colorPieza = 'blanco';
-    } else {
+    } else if (this.piezas[posicion1][posicion2].includes('Negro') || this.piezas[posicion1][posicion2].includes('Negra')) {
+      this.posicionNegras.add(this.nombreCasilla);
       this.colorPieza = 'negro'
     }
     if (this.numeroTurno % 2 === 0) {
@@ -88,16 +93,50 @@ export class AjedrezPage implements OnInit {
     } else {
       this.turno = 'negras'
     }
-    let idPieza = this.conversorNumeroLetra(this.ultimoMovimiento);
-    const elemento = document.getElementById(idPieza) as HTMLElement
-    if (!!elemento) {
+    if (this.turno === 'negras') {
+      for (let i = 0; i < Array.from(this.posicionBlancas).length; i++) {
+        const elemento = document.getElementById(Array.from(this.posicionBlancas)[i]) as HTMLElement
+        if (!!elemento) {
+          let img = elemento.querySelector("img") as HTMLImageElement;
+          if (!!img) {
+            img.classList.add('anularEventos');
+          }
 
-      let img = elemento.querySelector("img") as HTMLImageElement;
-      if (!!img) {
-        img.classList.add('anularEventos');
-      }
+        }
+      };
+      for (let i = 0; i < Array.from(this.posicionNegras).length; i++) {
+        const elemento = document.getElementById(Array.from(this.posicionNegras)[i]) as HTMLElement
+        if (!!elemento) {
+          let img = elemento.querySelector("img") as HTMLImageElement;
+          if (!!img) {
+            img.classList.remove('anularEventos');
+          }
 
-    };
+        }
+      };
+    } else {
+      for (let i = 0; i < Array.from(this.posicionNegras).length; i++) {
+        const elemento = document.getElementById(Array.from(this.posicionNegras)[i]) as HTMLElement
+        if (!!elemento) {
+          let img = elemento.querySelector("img") as HTMLImageElement;
+          if (!!img) {
+            img.classList.add('anularEventos');
+          }
+
+        }
+      };
+      for (let i = 0; i < Array.from(this.posicionBlancas).length; i++) {
+        const elemento = document.getElementById(Array.from(this.posicionBlancas)[i]) as HTMLElement
+        if (!!elemento) {
+          let img = elemento.querySelector("img") as HTMLImageElement;
+          if (!!img) {
+            img.classList.remove('anularEventos');
+          }
+
+        }
+      };
+    }
+
     this.idPieza = {
       id: this.piezas[posicion1][posicion2],
       casilla: this.nombreCasilla,
@@ -115,15 +154,17 @@ export class AjedrezPage implements OnInit {
 
     this.PiezaAnterior = datosPieza;
     console.log(datosPieza);
-    if (this.turno === 'blancas') {
-      if (datosPieza.id === 'PeonBlanco') {
-        this.movPeon(datosPieza);
-      }
-    } else if (this.turno === 'negras') {
-      if (datosPieza.id === 'PeonNegro') {
-        this.movPeon(datosPieza);
-      }
-    }
+    this.movPeon(datosPieza);
+
+    // if (this.turno === 'blancas') {
+    //   if (datosPieza.id === 'PeonBlanco') {
+
+    //   }
+    // } else if (this.turno === 'negras') {
+    //   if (datosPieza.id === 'PeonNegro') {
+    //     this.movPeon(datosPieza);
+    //   }
+    // }
   }
 
   mouseout(ev: any) {
@@ -154,22 +195,24 @@ export class AjedrezPage implements OnInit {
     if (existeClase?.classList.contains('posibilidades')) {
       console.log(this.PiezaAnterior);
       let numeroConvertido = this.conversorLetraNumero(this.PiezaAnterior.casilla);
+      if (this.posicionBlancas.has(this.PiezaAnterior.casilla)) {
+        this.posicionBlancas.delete(this.PiezaAnterior.casilla);
+      } else if (this.posicionNegras.has(this.PiezaAnterior.casilla)) {
+        this.posicionNegras.delete(this.PiezaAnterior.casilla);
+      }
+
       let numero1: number = parseInt(numeroConvertido[0]);
       let numero2: number = parseInt(numeroConvertido[1]);
       this.piezas[numero1][numero2] = '';
       numero1 = parseInt(this.conversorLetraNumero(idCasilla)[0]);
       numero2 = parseInt(this.conversorLetraNumero(idCasilla)[1]);
       this.borrarPosibilidades();
-      let idPieza = this.conversorNumeroLetra(this.ultimoMovimiento);
-      const elemento = document.getElementById(idPieza) as HTMLElement
-      if (!!elemento) {
-
-        let img = elemento.querySelector("img") as HTMLImageElement;
-        if (!!img) {
-          img.classList.remove('anularEventos');
-        }
-
-      };
+      let letra = String(numero1)+String(numero2);
+      if (this.piezas[numero1][numero2] !== '' && this.turno === 'blancas') {
+        this.posicionNegras.delete(this.conversorNumeroLetra(letra));
+      }else if(this.piezas[numero1][numero2] !== '' && this.turno === 'negras'){
+        this.posicionBlancas.delete(this.conversorNumeroLetra(letra));
+      }
       this.ultimoMovimiento = (String(numero1) + String(numero2));
       this.piezas[numero1][numero2] = this.PiezaAnterior.id;
       this.numeroTurno++;
