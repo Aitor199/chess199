@@ -39,6 +39,7 @@ export class AjedrezPage implements OnInit {
   numeroTurno = 0;
   posicionBlancas!: Set<string>;
   posicionNegras!: Set<string>;
+  peonUltimaFila: boolean = false;
 
   piezas = [
     ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
@@ -153,7 +154,6 @@ export class AjedrezPage implements OnInit {
     const datosPieza: datosPieza = JSON.parse(ev.target.id);
 
     this.PiezaAnterior = datosPieza;
-    console.log(datosPieza);
     this.movPeon(datosPieza);
 
     // if (this.turno === 'blancas') {
@@ -189,11 +189,9 @@ export class AjedrezPage implements OnInit {
   }
 
   casilla(ev: any) {
-    console.log(ev.target);
     const idCasilla = ev.target.id;
     const existeClase = document.getElementById(idCasilla);
     if (existeClase?.classList.contains('posibilidades')) {
-      console.log(this.PiezaAnterior);
       let numeroConvertido = this.conversorLetraNumero(this.PiezaAnterior.casilla);
       if (this.posicionBlancas.has(this.PiezaAnterior.casilla)) {
         this.posicionBlancas.delete(this.PiezaAnterior.casilla);
@@ -207,14 +205,24 @@ export class AjedrezPage implements OnInit {
       numero1 = parseInt(this.conversorLetraNumero(idCasilla)[0]);
       numero2 = parseInt(this.conversorLetraNumero(idCasilla)[1]);
       this.borrarPosibilidades();
-      let letra = String(numero1)+String(numero2);
+      let letra = String(numero1) + String(numero2);
       if (this.piezas[numero1][numero2] !== '' && this.turno === 'blancas') {
         this.posicionNegras.delete(this.conversorNumeroLetra(letra));
-      }else if(this.piezas[numero1][numero2] !== '' && this.turno === 'negras'){
+      } else if (this.piezas[numero1][numero2] !== '' && this.turno === 'negras') {
         this.posicionBlancas.delete(this.conversorNumeroLetra(letra));
       }
-      this.ultimoMovimiento = (String(numero1) + String(numero2));
-      this.piezas[numero1][numero2] = this.PiezaAnterior.id;
+      if (idCasilla[1] === '8') {
+        console.log('ultima casilla');
+        this.piezas[numero1][numero2] = 'ReinaBlanca'
+
+      } else if (idCasilla[1] === '1') {
+        this.piezas[numero1][numero2] = 'ReinaNegra'
+      } else {
+        this.ultimoMovimiento = (String(numero1) + String(numero2));
+        this.piezas[numero1][numero2] = this.PiezaAnterior.id;
+      }
+
+
       this.numeroTurno++;
 
     }
@@ -228,6 +236,9 @@ export class AjedrezPage implements OnInit {
     let numero1: number = parseInt(numeroConvertido[0]);
     let numero2: number = parseInt(numeroConvertido[1]);
     numero1--;
+
+
+
     if (datos.id === 'PeonBlanco' && this.piezas[numero1][numero2] !== '') {
       datos.moverse = false;
     } else {
@@ -362,8 +373,8 @@ export class AjedrezPage implements OnInit {
         }
       }
     }
-  }
 
+  }
 
   borrarPosibilidades() {
     for (let i = 0; i < 8; i++) {
