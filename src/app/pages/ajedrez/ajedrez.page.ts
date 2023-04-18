@@ -154,17 +154,17 @@ export class AjedrezPage implements OnInit {
     const datosPieza: datosPieza = JSON.parse(ev.target.id);
 
     this.PiezaAnterior = datosPieza;
-    this.movPeon(datosPieza);
 
-    // if (this.turno === 'blancas') {
-    //   if (datosPieza.id === 'PeonBlanco') {
-
-    //   }
-    // } else if (this.turno === 'negras') {
-    //   if (datosPieza.id === 'PeonNegro') {
-    //     this.movPeon(datosPieza);
-    //   }
-    // }
+//revisar, por el momento hacer esta comparacion no sirve de nada
+    if (this.turno === 'blancas') {
+      if (datosPieza.id === 'PeonBlanco') {
+        this.movPeon(datosPieza);
+      }
+    } else if (this.turno === 'negras') {
+      if (datosPieza.id === 'PeonNegro') {
+        this.movPeon(datosPieza);
+      }
+    }
   }
 
   mouseout(ev: any) {
