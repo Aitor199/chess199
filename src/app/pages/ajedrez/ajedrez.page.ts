@@ -87,6 +87,7 @@ export class AjedrezPage implements OnInit {
     } else if (this.piezas[posicion1][posicion2].includes('Negro') || this.piezas[posicion1][posicion2].includes('Negra')) {
       this.posicionNegras.add(this.nombreCasilla);
       this.colorPieza = 'negro'
+      
     }
     if (this.numeroTurno % 2 === 0) {
       this.turno = 'blancas';
