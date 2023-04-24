@@ -14,7 +14,8 @@ interface datosPieza {
   color: string,
   jaque?: boolean,
   puedeComer?: boolean,
-  moverse?: boolean
+  moverse?: boolean,
+  enroque?: boolean
 }
 
 @Component({
@@ -145,7 +146,8 @@ export class AjedrezPage implements OnInit {
       casilla: this.nombreCasilla,
       color: this.colorPieza,
       puedeComer: false,
-      moverse: true
+      moverse: true,
+      enroque: false
     }
     return (row % 2 === 0 && this.filas.indexOf(col) % 2 === 0) ||
       (row % 2 === 1 && this.filas.indexOf(col) % 2 === 1);
@@ -183,7 +185,7 @@ export class AjedrezPage implements OnInit {
         this.movTorre(datosPieza);
       }
     } else if (this.turno === 'negras' && datosPieza.id.includes('Torre')) {
-      if (datosPieza.id === 'ReinaBlanca') {
+      if (datosPieza.id === 'TorreNegra') {
         this.movTorre(datosPieza);
       }
     }
@@ -199,6 +201,28 @@ export class AjedrezPage implements OnInit {
         this.movAlfil(datosPieza);
       }
     }
+
+
+    if (this.turno === 'blancas' && datosPieza.id.includes('Caballo')) {
+      if (datosPieza.id === 'CaballoBlanco') {
+        this.movCaballo(datosPieza);
+      }
+    } else if (this.turno === 'negras' && datosPieza.id.includes('Caballo')) {
+      if (datosPieza.id === 'CaballoNegro') {
+        this.movCaballo(datosPieza);
+      }
+    }
+
+    if (this.turno === 'blancas' && datosPieza.id.includes('Rey')) {
+      if (datosPieza.id === 'ReyBlanco') {
+        this.movRey(datosPieza);
+      }
+    } else if (this.turno === 'negras' && datosPieza.id.includes('Rey')) {
+      if (datosPieza.id === 'ReyNegro') {
+        this.movRey(datosPieza);
+      }
+    }
+
 
   }
 
@@ -262,6 +286,671 @@ export class AjedrezPage implements OnInit {
     }
   }
 
+  movRey(datos: datosPieza) {
+    let casilla: any;
+    let datosPiezaAtacada: datosPieza;
+    console.log(datos);
+    let x = this.conversorLetraNumero(datos.casilla);
+    this.unaPiezaEsAtacada = false;
+    datos.moverse = true;
+    let x1 = Number(x[0]);
+    let x2 = Number(x[1]);
+    x1 = x1 + 1;
+    let a1_x2 = x2;
+    let a2_x2 = x2;
+    a1_x2++;
+    a2_x2--;
+    if (x1 > -1 && x1 < 8) {
+
+      if (a1_x2 < 8) {
+        let x3 = this.conversorNumeroLetra(String(x1) + String(a1_x2));
+        casilla = document.getElementById(x3);
+      }
+
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          console.log(datos.color, datosPiezaAtacada.color);
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+      if (a2_x2 > -1) {
+        let x3 = this.conversorNumeroLetra(String(x1) + String(a2_x2));
+        casilla = document.getElementById(x3);
+      }
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+    }
+
+    x = this.conversorLetraNumero(datos.casilla);
+    this.unaPiezaEsAtacada = false;
+    datos.moverse = true;
+    x1 = Number(x[0]);
+    x2 = Number(x[1]);
+    x1 = x1 - 1;
+    a1_x2 = x2;
+    a2_x2 = x2;
+    console.log(x2);
+    a1_x2++;
+    a2_x2--;
+    if (x1 > -1 && x1 < 8) {
+
+      if (a1_x2 < 8) {
+        let x3 = this.conversorNumeroLetra(String(x1) + String(a1_x2));
+        casilla = document.getElementById(x3);
+      }
+
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+      if (a2_x2 > -1) {
+        let x3 = this.conversorNumeroLetra(String(x1) + String(a2_x2));
+        casilla = document.getElementById(x3);
+
+      }
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          console.log(datos.color, datosPiezaAtacada.color);
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+    }
+
+    x = this.conversorLetraNumero(datos.casilla);
+    this.unaPiezaEsAtacada = false;
+    datos.moverse = true;
+    x1 = Number(x[0]);
+    x2 = Number(x[1]);
+    x2 = x2 - 1;
+    let a1_x1 = x1;
+    let a2_x1 = x1;
+    console.log(x1);
+
+    a1_x1++;
+    a2_x1--;
+    if (x1 > -1 && x1 < 8) {
+
+      if (a1_x1 < 8) {
+        let x3 = this.conversorNumeroLetra(String(a1_x1) + String(x2));
+        casilla = document.getElementById(x3);
+      }
+
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+
+      if (a2_x1 > -1) {
+        let x3 = this.conversorNumeroLetra(String(a2_x1) + String(x2));
+
+
+        casilla = document.getElementById(x3);
+      }
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          console.log(datos.color, datosPiezaAtacada.color);
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+    }
+
+    x = this.conversorLetraNumero(datos.casilla);
+    this.unaPiezaEsAtacada = false;
+    datos.moverse = true;
+    x1 = Number(x[0]);
+    x2 = Number(x[1]);
+    x2 = x2 + 1;
+    a1_x1 = x1;
+    a2_x1 = x1;
+    a1_x1++;
+    a2_x1--;
+    if (x1 > -1 && x1 < 8) {
+
+      if (a1_x1 < 8) {
+        let x3 = this.conversorNumeroLetra(String(a1_x1) + String(x2));
+        casilla = document.getElementById(x3);
+      }
+
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+      if (a2_x1 > -1) {
+        let x3 = this.conversorNumeroLetra(String(a2_x1) + String(x2));
+        casilla = document.getElementById(x3);
+      }
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          console.log(datos.color, datosPiezaAtacada.color);
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+    }
+
+
+
+    x = this.conversorLetraNumero(datos.casilla);
+    this.unaPiezaEsAtacada = false;
+    datos.moverse = true;
+    x1 = Number(x[0]);
+    x2 = Number(x[1]);
+    x1 = x1 + 1;
+
+    if (x1 > -1 && x1 < 8) {
+
+      if (a1_x2 < 8) {
+        let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
+        casilla = document.getElementById(x3);
+      }
+
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          console.log(datos.color, datosPiezaAtacada.color);
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+
+    }
+
+    x = this.conversorLetraNumero(datos.casilla);
+    this.unaPiezaEsAtacada = false;
+    datos.moverse = true;
+    x1 = Number(x[0]);
+    x2 = Number(x[1]);
+    x1 = x1 - 1;
+    if (x1 > -1 && x1 < 8) {
+
+      if (a1_x2 < 8) {
+        let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
+        casilla = document.getElementById(x3);
+      }
+
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+
+    }
+
+    x = this.conversorLetraNumero(datos.casilla);
+    this.unaPiezaEsAtacada = false;
+    datos.moverse = true;
+    x1 = Number(x[0]);
+    x2 = Number(x[1]);
+    x2 = x2 - 1;
+    if (x1 > -1 && x1 < 8) {
+
+      if (a1_x1 < 8) {
+        let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
+        casilla = document.getElementById(x3);
+      }
+
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+
+
+    }
+
+    x = this.conversorLetraNumero(datos.casilla);
+    this.unaPiezaEsAtacada = false;
+    datos.moverse = true;
+    x1 = Number(x[0]);
+    x2 = Number(x[1]);
+    x2 = x2 + 1;
+    if (x1 > -1 && x1 < 8) {
+
+      if (a1_x1 < 8) {
+        let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
+        casilla = document.getElementById(x3);
+      }
+
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+
+    }
+  }
+
+  movCaballo(datos: datosPieza) {
+    let casilla: any;
+    let datosPiezaAtacada: datosPieza;
+    console.log(datos);
+    let x = this.conversorLetraNumero(datos.casilla);
+    this.unaPiezaEsAtacada = false;
+    datos.moverse = true;
+    let x1 = Number(x[0]);
+    let x2 = Number(x[1]);
+    x1 = x1 + 2;
+    let a1_x2 = x2;
+    let a2_x2 = x2;
+    a1_x2++;
+    a2_x2--;
+    if (x1 > -1 && x1 < 8) {
+
+      if (a1_x2 < 8) {
+        let x3 = this.conversorNumeroLetra(String(x1) + String(a1_x2));
+        casilla = document.getElementById(x3);
+      }
+
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          console.log(datos.color, datosPiezaAtacada.color);
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+      if (a2_x2 > -1) {
+        let x3 = this.conversorNumeroLetra(String(x1) + String(a2_x2));
+        casilla = document.getElementById(x3);
+      }
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+    }
+
+    x = this.conversorLetraNumero(datos.casilla);
+    this.unaPiezaEsAtacada = false;
+    datos.moverse = true;
+    x1 = Number(x[0]);
+    x2 = Number(x[1]);
+    x1 = x1 - 2;
+    a1_x2 = x2;
+    a2_x2 = x2;
+    console.log(x2);
+    a1_x2++;
+    a2_x2--;
+    if (x1 > -1 && x1 < 8) {
+
+      if (a1_x2 < 8) {
+        let x3 = this.conversorNumeroLetra(String(x1) + String(a1_x2));
+        casilla = document.getElementById(x3);
+      }
+
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+      if (a2_x2 > -1) {
+        let x3 = this.conversorNumeroLetra(String(x1) + String(a2_x2));
+        casilla = document.getElementById(x3);
+
+      }
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          console.log(datos.color, datosPiezaAtacada.color);
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+    }
+
+    x = this.conversorLetraNumero(datos.casilla);
+    this.unaPiezaEsAtacada = false;
+    datos.moverse = true;
+    x1 = Number(x[0]);
+    x2 = Number(x[1]);
+    x2 = x2 - 2;
+    let a1_x1 = x1;
+    let a2_x1 = x1;
+    console.log(x1);
+
+    a1_x1++;
+    a2_x1--;
+    if (x1 > -1 && x1 < 8) {
+
+      if (a1_x1 < 8) {
+        let x3 = this.conversorNumeroLetra(String(a1_x1) + String(x2));
+        casilla = document.getElementById(x3);
+      }
+
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+
+      if (a2_x1 > -1) {
+        let x3 = this.conversorNumeroLetra(String(a2_x1) + String(x2));
+
+
+        casilla = document.getElementById(x3);
+      }
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          console.log(datos.color, datosPiezaAtacada.color);
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+    }
+
+    x = this.conversorLetraNumero(datos.casilla);
+    this.unaPiezaEsAtacada = false;
+    datos.moverse = true;
+    x1 = Number(x[0]);
+    x2 = Number(x[1]);
+    x2 = x2 + 2;
+    a1_x1 = x1;
+    a2_x1 = x1;
+    a1_x1++;
+    a2_x1--;
+    if (x1 > -1 && x1 < 8) {
+
+      if (a1_x1 < 8) {
+        let x3 = this.conversorNumeroLetra(String(a1_x1) + String(x2));
+        casilla = document.getElementById(x3);
+      }
+
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+      if (a2_x1 > -1) {
+        let x3 = this.conversorNumeroLetra(String(a2_x1) + String(x2));
+        casilla = document.getElementById(x3);
+      }
+      if (!!casilla) {
+        datos.moverse = true;
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          datosPiezaAtacada = JSON.parse(img.id)
+          console.log(datos.color, datosPiezaAtacada.color);
+          if (datosPiezaAtacada.color !== datos.color) {
+            datos.moverse = true;
+            this.unaPiezaEsAtacada = true;
+            casilla.classList.add('posibilidades');
+          } else {
+            datos.moverse = false;
+
+          }
+        }
+        if (datos.moverse && !this.unaPiezaEsAtacada) {
+          casilla.classList.add('posibilidades');
+        }
+        this.unaPiezaEsAtacada = false;
+      }
+    }
+  }
+
   movTorre(datos: datosPieza) {
     let casilla: any;
     let datosPiezaAtacada: datosPieza;
@@ -277,10 +966,10 @@ export class AjedrezPage implements OnInit {
         let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
         casilla = document.getElementById(x3);
         if (!!casilla) {
+          datos.moverse = true;
           let img = casilla.querySelector("img") as HTMLImageElement;
           if (!!img) {
             datosPiezaAtacada = JSON.parse(img.id)
-            console.log(datos.color, datosPiezaAtacada.color);
             if (datosPiezaAtacada.color !== datos.color) {
               datos.moverse = true;
               this.unaPiezaEsAtacada = true;
@@ -309,10 +998,10 @@ export class AjedrezPage implements OnInit {
         let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
         casilla = document.getElementById(x3);
         if (!!casilla) {
+          datos.moverse = true;
           let img = casilla.querySelector("img") as HTMLImageElement;
           if (!!img) {
             datosPiezaAtacada = JSON.parse(img.id)
-            console.log(datos.color, datosPiezaAtacada.color);
             if (datosPiezaAtacada.color !== datos.color) {
               datos.moverse = true;
               this.unaPiezaEsAtacada = true;
@@ -339,10 +1028,10 @@ export class AjedrezPage implements OnInit {
         let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
         casilla = document.getElementById(x3);
         if (!!casilla) {
+          datos.moverse = true;
           let img = casilla.querySelector("img") as HTMLImageElement;
           if (!!img) {
             datosPiezaAtacada = JSON.parse(img.id)
-            console.log(datos.color, datosPiezaAtacada.color);
             if (datosPiezaAtacada.color !== datos.color) {
               datos.moverse = true;
               this.unaPiezaEsAtacada = true;
@@ -369,10 +1058,10 @@ export class AjedrezPage implements OnInit {
         let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
         casilla = document.getElementById(x3);
         if (!!casilla) {
+          datos.moverse = true;
           let img = casilla.querySelector("img") as HTMLImageElement;
           if (!!img) {
             datosPiezaAtacada = JSON.parse(img.id)
-            console.log(datos.color, datosPiezaAtacada.color);
             if (datosPiezaAtacada.color !== datos.color) {
               datos.moverse = true;
               this.unaPiezaEsAtacada = true;
@@ -408,10 +1097,10 @@ export class AjedrezPage implements OnInit {
         let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
         casilla = document.getElementById(x3);
         if (!!casilla) {
+          datos.moverse = true;
           let img = casilla.querySelector("img") as HTMLImageElement;
           if (!!img) {
             datosPiezaAtacada = JSON.parse(img.id)
-            console.log(datos.color, datosPiezaAtacada.color);
             if (datosPiezaAtacada.color !== datos.color) {
               datos.moverse = true;
               this.unaPiezaEsAtacada = true;
@@ -439,10 +1128,10 @@ export class AjedrezPage implements OnInit {
         let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
         casilla = document.getElementById(x3);
         if (!!casilla) {
+          datos.moverse = true;
           let img = casilla.querySelector("img") as HTMLImageElement;
           if (!!img) {
             datosPiezaAtacada = JSON.parse(img.id)
-            console.log(datos.color, datosPiezaAtacada.color);
             if (datosPiezaAtacada.color !== datos.color) {
               datos.moverse = true;
               this.unaPiezaEsAtacada = true;
@@ -470,10 +1159,10 @@ export class AjedrezPage implements OnInit {
         let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
         casilla = document.getElementById(x3);
         if (!!casilla) {
+          datos.moverse = true;
           let img = casilla.querySelector("img") as HTMLImageElement;
           if (!!img) {
             datosPiezaAtacada = JSON.parse(img.id)
-
             if (datosPiezaAtacada.color !== datos.color) {
               this.unaPiezaEsAtacada = true;
               datos.moverse = true;
@@ -502,10 +1191,10 @@ export class AjedrezPage implements OnInit {
         let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
         casilla = document.getElementById(x3);
         if (!!casilla) {
+          datos.moverse = true;
           let img = casilla.querySelector("img") as HTMLImageElement;
           if (!!img) {
             datosPiezaAtacada = JSON.parse(img.id)
-            console.log(datos.color, datosPiezaAtacada.color);
             if (datosPiezaAtacada.color !== datos.color) {
               datos.moverse = true;
               this.unaPiezaEsAtacada = true;
