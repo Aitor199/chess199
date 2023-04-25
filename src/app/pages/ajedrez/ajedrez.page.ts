@@ -42,6 +42,9 @@ export class AjedrezPage implements OnInit {
   posicionNegras!: Set<string>;
   peonUltimaFila: boolean = false;
   unaPiezaEsAtacada: boolean = false;
+  informacionAnterior!: datosPieza;
+  salidaDoble: boolean = false;
+  ultimaPiezaMovida!: datosPieza;
 
   piezas = [
     ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
@@ -154,9 +157,10 @@ export class AjedrezPage implements OnInit {
   }
 
   pieza(ev: any) {
+
     this.borrarPosibilidades();
     const datosPieza: datosPieza = JSON.parse(ev.target.id);
-
+    this.informacionAnterior = datosPieza;
     this.PiezaAnterior = datosPieza;
 
     //revisar, por el momento hacer esta comparacion no sirve de nada
@@ -257,6 +261,8 @@ export class AjedrezPage implements OnInit {
       } else if (this.posicionNegras.has(this.PiezaAnterior.casilla)) {
         this.posicionNegras.delete(this.PiezaAnterior.casilla);
       }
+      this.validaComerAlPaso(idCasilla, this.informacionAnterior);
+      this.ultimaPiezaMovida = this.PiezaAnterior;
       let numero1: number = parseInt(numeroConvertido[0]);
       let numero2: number = parseInt(numeroConvertido[1]);
       this.piezas[numero1][numero2] = '';
@@ -271,16 +277,6 @@ export class AjedrezPage implements OnInit {
       }
       this.ultimoMovimiento = (String(numero1) + String(numero2));
       this.piezas[numero1][numero2] = this.PiezaAnterior.id;
-      // if (idCasilla[1] === '8') {
-      //   console.log('ultima casilla');
-      //   this.piezas[numero1][numero2] = 'ReinaBlanca'
-
-      // } else if (idCasilla[1] === '1') {
-      //   this.piezas[numero1][numero2] = 'ReinaNegra'
-      // } else {
-      // }
-
-
       this.numeroTurno++;
 
     }
@@ -1224,7 +1220,62 @@ export class AjedrezPage implements OnInit {
     let numero2: number = parseInt(numeroConvertido[1]);
     numero1--;
 
-
+    console.log(this.conversorNumeroLetra(this.ultimoMovimiento));
+    console.log((datos.casilla));
+    console.log(this.ultimaPiezaMovida);
+    console.log(this.salidaDoble);
+    
+    if ((datos.casilla === 'a5' || datos.casilla === 'c5') && datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'b7') {
+      casilla = document.getElementById('b6');
+      casilla.classList.add('posibilidades');
+    }else if (datos.casilla === 'b5' && datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'a7') {
+      casilla = document.getElementById('a6');
+      casilla.classList.add('posibilidades');
+    }else if ((datos.casilla === 'b5' || datos.casilla === 'd5')&& datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'c7') {
+      casilla = document.getElementById('c6');
+      casilla.classList.add('posibilidades');
+    }else if ((datos.casilla === 'c5' || datos.casilla === 'e5')&& datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'd7') {
+      casilla = document.getElementById('d6');
+      casilla.classList.add('posibilidades');
+    }else if ((datos.casilla === 'd5' || datos.casilla === 'f5')&& datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'e7') {
+      casilla = document.getElementById('e6');
+      casilla.classList.add('posibilidades');
+    }else if ((datos.casilla === 'e5' || datos.casilla === 'g5')&& datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'f7') {
+      casilla = document.getElementById('f6');
+      casilla.classList.add('posibilidades');
+    }else if ((datos.casilla === 'f5' || datos.casilla === 'h5')&& datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'g7') {
+      casilla = document.getElementById('g6');
+      casilla.classList.add('posibilidades');
+    }else if (datos.casilla === 'g5' && datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'h7') {
+      casilla = document.getElementById('h6');
+      casilla.classList.add('posibilidades');
+    }
+//valida posiciones 
+    if ((datos.casilla === 'a6' || datos.casilla === 'c6') && datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'b7') {
+      casilla = document.getElementById('b6');
+      casilla.classList.add('posibilidades');
+    }else if (datos.casilla === 'b5' && datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'a7') {
+      casilla = document.getElementById('a6');
+      casilla.classList.add('posibilidades');
+    }else if ((datos.casilla === 'b5' || datos.casilla === 'd5')&& datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'c7') {
+      casilla = document.getElementById('c6');
+      casilla.classList.add('posibilidades');
+    }else if ((datos.casilla === 'c5' || datos.casilla === 'e5')&& datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'd7') {
+      casilla = document.getElementById('d6');
+      casilla.classList.add('posibilidades');
+    }else if ((datos.casilla === 'd5' || datos.casilla === 'f5')&& datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'e7') {
+      casilla = document.getElementById('e6');
+      casilla.classList.add('posibilidades');
+    }else if ((datos.casilla === 'e5' || datos.casilla === 'g5')&& datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'f7') {
+      casilla = document.getElementById('f6');
+      casilla.classList.add('posibilidades');
+    }else if ((datos.casilla === 'f5' || datos.casilla === 'h5')&& datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'g7') {
+      casilla = document.getElementById('g6');
+      casilla.classList.add('posibilidades');
+    }else if (datos.casilla === 'g5' && datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'h7') {
+      casilla = document.getElementById('h6');
+      casilla.classList.add('posibilidades');
+    }
 
     if (datos.id === 'PeonBlanco' && this.piezas[numero1][numero2] !== '') {
       datos.moverse = false;
@@ -1361,6 +1412,45 @@ export class AjedrezPage implements OnInit {
       }
     }
 
+  }
+
+  validaComerAlPaso(casillaActual: string, piezaAnterior: datosPieza) {
+    
+    if (piezaAnterior.id === 'PeonNegro' && piezaAnterior.casilla === 'a7' && casillaActual === 'a5') {
+      this.salidaDoble = true;
+    } else if (piezaAnterior.id === 'PeonNegro' && piezaAnterior.casilla === 'b7' && casillaActual === 'b5') {
+      this.salidaDoble = true;
+    } else if (piezaAnterior.id === 'PeonNegro' && piezaAnterior.casilla === 'c7' && casillaActual === 'c5') {
+      this.salidaDoble = true;
+    } else if (piezaAnterior.id === 'PeonNegro' && piezaAnterior.casilla === 'd7' && casillaActual === 'd5') {
+      this.salidaDoble = true
+    } else if (piezaAnterior.id === 'PeonNegro' && piezaAnterior.casilla === 'e7' && casillaActual === 'e5') {
+      this.salidaDoble = true;
+    } else if (piezaAnterior.id === 'PeonNegro' && piezaAnterior.casilla === 'f7' && casillaActual === 'f5') {
+      this.salidaDoble = true;
+    } else if (piezaAnterior.id === 'PeonNegro' && piezaAnterior.casilla === 'g7' && casillaActual === 'g5') {
+      this.salidaDoble = true;
+    } else if (piezaAnterior.id === 'PeonNegro' && piezaAnterior.casilla === 'h7' && casillaActual === 'h5') {
+      this.salidaDoble = true;
+    } else if (piezaAnterior.id === 'PeonBlanco' && piezaAnterior.casilla === 'a2' && casillaActual === 'a4') {
+      this.salidaDoble = true;
+    } else if (piezaAnterior.id === 'PeonBlanco' && piezaAnterior.casilla === 'b2' && casillaActual === 'b4') {
+      this.salidaDoble = true;
+    } else if (piezaAnterior.id === 'PeonBlanco' && piezaAnterior.casilla === 'c2' && casillaActual === 'c4') {
+      this.salidaDoble = true;
+    } else if (piezaAnterior.id === 'PeonBlanco' && piezaAnterior.casilla === 'd2' && casillaActual === 'd4') {
+      this.salidaDoble = true
+    } else if (piezaAnterior.id === 'PeonBlanco' && piezaAnterior.casilla === 'e2' && casillaActual === 'e4') {
+      this.salidaDoble = true;
+    } else if (piezaAnterior.id === 'PeonBlanco' && piezaAnterior.casilla === 'f2' && casillaActual === 'f4') {
+      this.salidaDoble = true;
+    } else if (piezaAnterior.id === 'PeonBlanco' && piezaAnterior.casilla === 'g2' && casillaActual === 'g4') {
+      this.salidaDoble = true;
+    } else if (piezaAnterior.id === 'PeonBlanco' && piezaAnterior.casilla === 'h2' && casillaActual === 'h4') {
+      this.salidaDoble = true;
+    } else {
+      this.salidaDoble = false;
+    }
   }
 
   borrarPosibilidades() {
