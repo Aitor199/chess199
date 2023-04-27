@@ -45,6 +45,7 @@ export class AjedrezPage implements OnInit {
   informacionAnterior!: datosPieza;
   salidaDoble: boolean = false;
   ultimaPiezaMovida!: datosPieza;
+  opcionAComerAlPaso: boolean = false;
 
   piezas = [
     ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
@@ -261,6 +262,30 @@ export class AjedrezPage implements OnInit {
       } else if (this.posicionNegras.has(this.PiezaAnterior.casilla)) {
         this.posicionNegras.delete(this.PiezaAnterior.casilla);
       }
+      if (this.opcionAComerAlPaso) {
+        if (this.informacionAnterior.casilla[0] !== idCasilla[0]) {
+     if (this.informacionAnterior.id === 'PeonBlanco') {
+            let numeroConvertido = this.conversorLetraNumero(idCasilla);
+            let x1: number = parseInt(numeroConvertido[0]);
+            let x2: number = parseInt(numeroConvertido[1]);
+            x1 = x1 + 1
+            if(this.piezas[x1][x2]=== 'PeonNegro'){
+              this.piezas[x1][x2] = '';
+            }
+          }else{
+            let numeroConvertido = this.conversorLetraNumero(idCasilla);
+            let x1: number = parseInt(numeroConvertido[0]);
+            let x2: number = parseInt(numeroConvertido[1]);
+            x1 = x1 - 1
+            if(this.piezas[x1][x2]=== 'PeonBlanco'){
+              this.piezas[x1][x2] = '';
+            } 
+          }
+        }
+      }
+      console.log(idCasilla);
+      console.log(this.informacionAnterior);
+
       this.validaComerAlPaso(idCasilla, this.informacionAnterior);
       this.ultimaPiezaMovida = this.PiezaAnterior;
       let numero1: number = parseInt(numeroConvertido[0]);
@@ -1219,62 +1244,73 @@ export class AjedrezPage implements OnInit {
     let numero1: number = parseInt(numeroConvertido[0]);
     let numero2: number = parseInt(numeroConvertido[1]);
     numero1--;
-
-    console.log(this.conversorNumeroLetra(this.ultimoMovimiento));
-    console.log((datos.casilla));
-    console.log(this.ultimaPiezaMovida);
-    console.log(this.salidaDoble);
-    
+    this.opcionAComerAlPaso = false;
     if ((datos.casilla === 'a5' || datos.casilla === 'c5') && datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'b7') {
       casilla = document.getElementById('b6');
       casilla.classList.add('posibilidades');
-    }else if (datos.casilla === 'b5' && datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'a7') {
+      this.opcionAComerAlPaso = true;
+    } else if (datos.casilla === 'b5' && datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'a7') {
       casilla = document.getElementById('a6');
       casilla.classList.add('posibilidades');
-    }else if ((datos.casilla === 'b5' || datos.casilla === 'd5')&& datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'c7') {
+      this.opcionAComerAlPaso = true;
+    } else if ((datos.casilla === 'b5' || datos.casilla === 'd5') && datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'c7') {
       casilla = document.getElementById('c6');
       casilla.classList.add('posibilidades');
-    }else if ((datos.casilla === 'c5' || datos.casilla === 'e5')&& datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'd7') {
+      this.opcionAComerAlPaso = true;
+    } else if ((datos.casilla === 'c5' || datos.casilla === 'e5') && datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'd7') {
       casilla = document.getElementById('d6');
       casilla.classList.add('posibilidades');
-    }else if ((datos.casilla === 'd5' || datos.casilla === 'f5')&& datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'e7') {
+      this.opcionAComerAlPaso = true;
+    } else if ((datos.casilla === 'd5' || datos.casilla === 'f5') && datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'e7') {
       casilla = document.getElementById('e6');
       casilla.classList.add('posibilidades');
-    }else if ((datos.casilla === 'e5' || datos.casilla === 'g5')&& datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'f7') {
+      this.opcionAComerAlPaso = true;
+    } else if ((datos.casilla === 'e5' || datos.casilla === 'g5') && datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'f7') {
       casilla = document.getElementById('f6');
       casilla.classList.add('posibilidades');
-    }else if ((datos.casilla === 'f5' || datos.casilla === 'h5')&& datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'g7') {
+      this.opcionAComerAlPaso = true;
+    } else if ((datos.casilla === 'f5' || datos.casilla === 'h5') && datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'g7') {
       casilla = document.getElementById('g6');
       casilla.classList.add('posibilidades');
-    }else if (datos.casilla === 'g5' && datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'h7') {
+      this.opcionAComerAlPaso = true;
+    } else if (datos.casilla === 'g5' && datos.id === 'PeonBlanco' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'h7') {
       casilla = document.getElementById('h6');
       casilla.classList.add('posibilidades');
+      this.opcionAComerAlPaso = true;
     }
-//valida posiciones 
-    if ((datos.casilla === 'a6' || datos.casilla === 'c6') && datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'b7') {
-      casilla = document.getElementById('b6');
+    //valida posiciones 
+    if ((datos.casilla === 'a4' || datos.casilla === 'c4') && datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'b2') {
+      casilla = document.getElementById('b3');
       casilla.classList.add('posibilidades');
-    }else if (datos.casilla === 'b5' && datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'a7') {
-      casilla = document.getElementById('a6');
+      this.opcionAComerAlPaso = true;
+    } else if (datos.casilla === 'b4' && datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'a2') {
+      casilla = document.getElementById('a3');
       casilla.classList.add('posibilidades');
-    }else if ((datos.casilla === 'b5' || datos.casilla === 'd5')&& datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'c7') {
-      casilla = document.getElementById('c6');
+      this.opcionAComerAlPaso = true;
+    } else if ((datos.casilla === 'b4' || datos.casilla === 'd4') && datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'c2') {
+      casilla = document.getElementById('c3');
       casilla.classList.add('posibilidades');
-    }else if ((datos.casilla === 'c5' || datos.casilla === 'e5')&& datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'd7') {
-      casilla = document.getElementById('d6');
+      this.opcionAComerAlPaso = true;
+    } else if ((datos.casilla === 'c4' || datos.casilla === 'e4') && datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'd2') {
+      casilla = document.getElementById('d3');
       casilla.classList.add('posibilidades');
-    }else if ((datos.casilla === 'd5' || datos.casilla === 'f5')&& datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'e7') {
-      casilla = document.getElementById('e6');
+      this.opcionAComerAlPaso = true;
+    } else if ((datos.casilla === 'd4' || datos.casilla === 'f4') && datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'e2') {
+      casilla = document.getElementById('e3');
       casilla.classList.add('posibilidades');
-    }else if ((datos.casilla === 'e5' || datos.casilla === 'g5')&& datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'f7') {
-      casilla = document.getElementById('f6');
+      this.opcionAComerAlPaso = true;
+    } else if ((datos.casilla === 'e4' || datos.casilla === 'g4') && datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'f2') {
+      casilla = document.getElementById('f3');
       casilla.classList.add('posibilidades');
-    }else if ((datos.casilla === 'f5' || datos.casilla === 'h5')&& datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'g7') {
-      casilla = document.getElementById('g6');
+      this.opcionAComerAlPaso = true;
+    } else if ((datos.casilla === 'f4' || datos.casilla === 'h4') && datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'g2') {
+      casilla = document.getElementById('g3');
       casilla.classList.add('posibilidades');
-    }else if (datos.casilla === 'g5' && datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'h7') {
-      casilla = document.getElementById('h6');
+      this.opcionAComerAlPaso = true;
+    } else if (datos.casilla === 'g4' && datos.id === 'PeonNegro' && this.salidaDoble && this.ultimaPiezaMovida.casilla === 'h2') {
+      casilla = document.getElementById('h3');
       casilla.classList.add('posibilidades');
+      this.opcionAComerAlPaso = true;
     }
 
     if (datos.id === 'PeonBlanco' && this.piezas[numero1][numero2] !== '') {
@@ -1415,7 +1451,7 @@ export class AjedrezPage implements OnInit {
   }
 
   validaComerAlPaso(casillaActual: string, piezaAnterior: datosPieza) {
-    
+
     if (piezaAnterior.id === 'PeonNegro' && piezaAnterior.casilla === 'a7' && casillaActual === 'a5') {
       this.salidaDoble = true;
     } else if (piezaAnterior.id === 'PeonNegro' && piezaAnterior.casilla === 'b7' && casillaActual === 'b5') {
