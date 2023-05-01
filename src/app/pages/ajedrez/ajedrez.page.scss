@@ -6,7 +6,10 @@
     margin: auto;
     margin-top: 1%;
   }
-  
+
+  ion-content {
+    --background: #133b3b;
+  }
   td {
     width: 65px;
     height: 65px;
