@@ -46,7 +46,8 @@ export class AjedrezPage implements OnInit {
   salidaDoble: boolean = false;
   ultimaPiezaMovida!: datosPieza;
   opcionAComerAlPaso: boolean = false;
-
+  reyBlancoMovio: boolean = false;
+  reyNegroMovio: boolean = false;
   piezas = [
     ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
     ['PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro'],
@@ -253,8 +254,55 @@ export class AjedrezPage implements OnInit {
   }
 
   casilla(ev: any) {
+    if(this.PiezaAnterior.id === 'ReyNegro'){
+this.reyNegroMovio = true;
+    }
+    if(this.PiezaAnterior.id === 'ReyBlanco'){
+      this.reyBlancoMovio = true;
+          }
     const idCasilla = ev.target.id;
     const existeClase = document.getElementById(idCasilla);
+    if (this.informacionAnterior?.casilla === 'e1' && this.informacionAnterior?.id === 'ReyBlanco' && idCasilla === 'g1') {
+      let hayTorre = this.conversorLetraNumero('h1');
+      let t1 = Number(hayTorre[0]);
+      let t2 = Number(hayTorre[1]);
+      this.piezas[t1][t2] = '';
+      hayTorre = this.conversorLetraNumero('f1');
+      t1 = Number(hayTorre[0]);
+      t2 = Number(hayTorre[1]);
+      this.piezas[t1][t2] = 'TorreBlanca';
+    }
+    if (this.informacionAnterior?.casilla === 'e1' && this.informacionAnterior?.id === 'ReyBlanco' && idCasilla === 'c1') {
+      let hayTorre = this.conversorLetraNumero('a1');
+      let t1 = Number(hayTorre[0]);
+      let t2 = Number(hayTorre[1]);
+      this.piezas[t1][t2] = '';
+      hayTorre = this.conversorLetraNumero('d1');
+      t1 = Number(hayTorre[0]);
+      t2 = Number(hayTorre[1]);
+      this.piezas[t1][t2] = 'TorreBlanca';
+    }
+
+    if (this.informacionAnterior?.casilla === 'e8' && this.informacionAnterior?.id === 'ReyNegro' && idCasilla === 'g8') {
+      let hayTorre = this.conversorLetraNumero('h8');
+      let t1 = Number(hayTorre[0]);
+      let t2 = Number(hayTorre[1]);
+      this.piezas[t1][t2] = '';
+      hayTorre = this.conversorLetraNumero('f8');
+      t1 = Number(hayTorre[0]);
+      t2 = Number(hayTorre[1]);
+      this.piezas[t1][t2] = 'TorreNegra';
+    }
+    if (this.informacionAnterior?.casilla === 'e8' && this.informacionAnterior?.id === 'ReyNegro' && idCasilla === 'c8') {
+      let hayTorre = this.conversorLetraNumero('a8');
+      let t1 = Number(hayTorre[0]);
+      let t2 = Number(hayTorre[1]);
+      this.piezas[t1][t2] = '';
+      hayTorre = this.conversorLetraNumero('d8');
+      t1 = Number(hayTorre[0]);
+      t2 = Number(hayTorre[1]);
+      this.piezas[t1][t2] = 'TorreNegra';
+    }
     if (existeClase?.classList.contains('posibilidades')) {
       let numeroConvertido = this.conversorLetraNumero(this.PiezaAnterior.casilla);
       if (this.posicionBlancas.has(this.PiezaAnterior.casilla)) {
@@ -264,22 +312,22 @@ export class AjedrezPage implements OnInit {
       }
       if (this.opcionAComerAlPaso) {
         if (this.informacionAnterior.casilla[0] !== idCasilla[0]) {
-     if (this.informacionAnterior.id === 'PeonBlanco') {
+          if (this.informacionAnterior.id === 'PeonBlanco') {
             let numeroConvertido = this.conversorLetraNumero(idCasilla);
             let x1: number = parseInt(numeroConvertido[0]);
             let x2: number = parseInt(numeroConvertido[1]);
             x1 = x1 + 1
-            if(this.piezas[x1][x2]=== 'PeonNegro'){
+            if (this.piezas[x1][x2] === 'PeonNegro') {
               this.piezas[x1][x2] = '';
             }
-          }else{
+          } else {
             let numeroConvertido = this.conversorLetraNumero(idCasilla);
             let x1: number = parseInt(numeroConvertido[0]);
             let x2: number = parseInt(numeroConvertido[1]);
             x1 = x1 - 1
-            if(this.piezas[x1][x2]=== 'PeonBlanco'){
+            if (this.piezas[x1][x2] === 'PeonBlanco') {
               this.piezas[x1][x2] = '';
-            } 
+            }
           }
         }
       }
@@ -316,14 +364,100 @@ export class AjedrezPage implements OnInit {
     datos.moverse = true;
     let x1 = Number(x[0]);
     let x2 = Number(x[1]);
+
+    let hayAlfil = this.conversorLetraNumero('f1');
+    let n1 = Number(hayAlfil[0]);
+    let n2 = Number(hayAlfil[1]);
+
+    let hayCaballo = this.conversorLetraNumero('g1');
+    let c1 = Number(hayCaballo[0]);
+    let c2 = Number(hayCaballo[1]);
+
+    let hayTorre = this.conversorLetraNumero('h1');
+    let t1 = Number(hayTorre[0]);
+    let t2 = Number(hayTorre[1]);
+
+    if (datos.id === 'ReyBlanco' && datos.casilla === 'e1' && this.piezas[n1][n2] === '' && this.piezas[c1][c2] === '' && this.piezas[t1][t2] === 'TorreBlanca' && !this.reyBlancoMovio) {
+      casilla = document.getElementById('g1');
+      casilla.classList.add('posibilidades');
+      casilla = document.getElementById('f1');
+      casilla.classList.add('posibilidades');
+    }
+    let hayDama = this.conversorLetraNumero('d1');
+    let d1 = Number(hayDama[0]);
+    let d2 = Number(hayDama[1]);
+
+    hayAlfil = this.conversorLetraNumero('c1');
+    n1 = Number(hayAlfil[0]);
+    n2 = Number(hayAlfil[1]);
+
+    hayCaballo = this.conversorLetraNumero('b1');
+    c1 = Number(hayCaballo[0]);
+    c2 = Number(hayCaballo[1]);
+
+    hayTorre = this.conversorLetraNumero('a1');
+    t1 = Number(hayTorre[0]);
+    t2 = Number(hayTorre[1]);
+    if (datos.id === 'ReyBlanco' && datos.casilla === 'e1' && this.piezas[n1][n2] === '' && this.piezas[c1][c2] === '' && this.piezas[d1][d2] === '' && this.piezas[t1][t2] === 'TorreBlanca' && !this.reyBlancoMovio) {
+      casilla = document.getElementById('d1');
+      casilla.classList.add('posibilidades');
+      casilla = document.getElementById('c1');
+      casilla.classList.add('posibilidades');
+    }
+
+
+
+
+    hayAlfil = this.conversorLetraNumero('f8');
+    n1 = Number(hayAlfil[0]);
+    n2 = Number(hayAlfil[1]);
+
+    hayCaballo = this.conversorLetraNumero('g8');
+    c1 = Number(hayCaballo[0]);
+    c2 = Number(hayCaballo[1]);
+
+    hayTorre = this.conversorLetraNumero('h8');
+    t1 = Number(hayTorre[0]);
+    t2 = Number(hayTorre[1]);
+
+    if (datos.id === 'ReyNegro' && datos.casilla === 'e8' && this.piezas[n1][n2] === '' && this.piezas[c1][c2] === '' && this.piezas[t1][t2] === 'TorreNegra' && !this.reyNegroMovio) {
+      casilla = document.getElementById('g8');
+      casilla.classList.add('posibilidades');
+      casilla = document.getElementById('f8');
+      casilla.classList.add('posibilidades');
+    }
+    hayDama = this.conversorLetraNumero('d8');
+    d1 = Number(hayDama[0]);
+    d2 = Number(hayDama[1]);
+
+    hayAlfil = this.conversorLetraNumero('c8');
+    n1 = Number(hayAlfil[0]);
+    n2 = Number(hayAlfil[1]);
+
+    hayCaballo = this.conversorLetraNumero('b8');
+    c1 = Number(hayCaballo[0]);
+    c2 = Number(hayCaballo[1]);
+
+    hayTorre = this.conversorLetraNumero('a8');
+    t1 = Number(hayTorre[0]);
+    t2 = Number(hayTorre[1]);
+    if (datos.id === 'ReyNegro' && datos.casilla === 'e8' && this.piezas[n1][n2] === '' && this.piezas[c1][c2] === '' && this.piezas[d1][d2] === '' && this.piezas[t1][t2] === 'TorreNegra' && !this.reyNegroMovio) {
+      casilla = document.getElementById('d8');
+      casilla.classList.add('posibilidades');
+      casilla = document.getElementById('c8');
+      casilla.classList.add('posibilidades');
+    }
+
+
     x1 = x1 + 1;
     let a1_x2 = x2;
     let a2_x2 = x2;
+
     a1_x2++;
     a2_x2--;
-    if (x1 > -1 && x1 < 8) {
+    if (x1 > -1 && x1 <= 8) {
 
-      if (a1_x2 < 8) {
+      if (a1_x2 <= 8) {
         let x3 = this.conversorNumeroLetra(String(x1) + String(a1_x2));
         casilla = document.getElementById(x3);
       }
@@ -384,9 +518,9 @@ export class AjedrezPage implements OnInit {
     console.log(x2);
     a1_x2++;
     a2_x2--;
-    if (x1 > -1 && x1 < 8) {
+    if (x1 >= 0 && x1 <= 8) {
 
-      if (a1_x2 < 8) {
+      if (a1_x2 <= 8) {
         let x3 = this.conversorNumeroLetra(String(x1) + String(a1_x2));
         casilla = document.getElementById(x3);
       }
@@ -449,9 +583,9 @@ export class AjedrezPage implements OnInit {
 
     a1_x1++;
     a2_x1--;
-    if (x1 > -1 && x1 < 8) {
+    if (x1 > -1 && x1 <= 8) {
 
-      if (a1_x1 < 8) {
+      if (a1_x1 <= 8) {
         let x3 = this.conversorNumeroLetra(String(a1_x1) + String(x2));
         casilla = document.getElementById(x3);
       }
@@ -514,9 +648,9 @@ export class AjedrezPage implements OnInit {
     a2_x1 = x1;
     a1_x1++;
     a2_x1--;
-    if (x1 > -1 && x1 < 8) {
+    if (x1 > -1 && x1 <= 8) {
 
-      if (a1_x1 < 8) {
+      if (a1_x1 <= 8) {
         let x3 = this.conversorNumeroLetra(String(a1_x1) + String(x2));
         casilla = document.getElementById(x3);
       }
@@ -575,9 +709,9 @@ export class AjedrezPage implements OnInit {
     x2 = Number(x[1]);
     x1 = x1 + 1;
 
-    if (x1 > -1 && x1 < 8) {
+    if (x1 > -1 && x1 <= 8) {
 
-      if (a1_x2 < 8) {
+      if (a1_x2 <= 8) {
         let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
         casilla = document.getElementById(x3);
       }
@@ -611,9 +745,9 @@ export class AjedrezPage implements OnInit {
     x1 = Number(x[0]);
     x2 = Number(x[1]);
     x1 = x1 - 1;
-    if (x1 > -1 && x1 < 8) {
+    if (x1 > -1 && x1 <= 8) {
 
-      if (a1_x2 < 8) {
+      if (a1_x2 <= 8) {
         let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
         casilla = document.getElementById(x3);
       }
@@ -646,9 +780,9 @@ export class AjedrezPage implements OnInit {
     x1 = Number(x[0]);
     x2 = Number(x[1]);
     x2 = x2 - 1;
-    if (x1 > -1 && x1 < 8) {
+    if (x1 > -1 && x1 <= 8) {
 
-      if (a1_x1 < 8) {
+      if (a1_x1 <= 8) {
         let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
         casilla = document.getElementById(x3);
       }
@@ -666,7 +800,7 @@ export class AjedrezPage implements OnInit {
             datos.moverse = false;
 
           }
-        }
+        } x1 <= 8
         if (datos.moverse && !this.unaPiezaEsAtacada) {
           casilla.classList.add('posibilidades');
         }
@@ -682,9 +816,9 @@ export class AjedrezPage implements OnInit {
     x1 = Number(x[0]);
     x2 = Number(x[1]);
     x2 = x2 + 1;
-    if (x1 > -1 && x1 < 8) {
+    if (x1 > -1 && x1 <= 8) {
 
-      if (a1_x1 < 8) {
+      if (a1_x1 <= 8) {
         let x3 = this.conversorNumeroLetra(String(x1) + String(x2));
         casilla = document.getElementById(x3);
       }
@@ -726,9 +860,9 @@ export class AjedrezPage implements OnInit {
     let a2_x2 = x2;
     a1_x2++;
     a2_x2--;
-    if (x1 > -1 && x1 < 8) {
+    if (x1 > -1 && x1 <= 8) {
 
-      if (a1_x2 < 8) {
+      if (a1_x2 <= 8) {
         let x3 = this.conversorNumeroLetra(String(x1) + String(a1_x2));
         casilla = document.getElementById(x3);
       }
@@ -789,9 +923,9 @@ export class AjedrezPage implements OnInit {
     console.log(x2);
     a1_x2++;
     a2_x2--;
-    if (x1 > -1 && x1 < 8) {
+    if (x1 > -1 && x1 <= 8) {
 
-      if (a1_x2 < 8) {
+      if (a1_x2 <= 8) {
         let x3 = this.conversorNumeroLetra(String(x1) + String(a1_x2));
         casilla = document.getElementById(x3);
       }
@@ -854,9 +988,9 @@ export class AjedrezPage implements OnInit {
 
     a1_x1++;
     a2_x1--;
-    if (x1 > -1 && x1 < 8) {
+    if (x1 > -1 && x1 <= 8) {
 
-      if (a1_x1 < 8) {
+      if (a1_x1 <= 8) {
         let x3 = this.conversorNumeroLetra(String(a1_x1) + String(x2));
         casilla = document.getElementById(x3);
       }
@@ -919,9 +1053,9 @@ export class AjedrezPage implements OnInit {
     a2_x1 = x1;
     a1_x1++;
     a2_x1--;
-    if (x1 > -1 && x1 < 8) {
+    if (x1 > -1 && x1 <= 8) {
 
-      if (a1_x1 < 8) {
+      if (a1_x1 <= 8) {
         let x3 = this.conversorNumeroLetra(String(a1_x1) + String(x2));
         casilla = document.getElementById(x3);
       }
