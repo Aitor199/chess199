@@ -265,6 +265,59 @@ export class AjedrezPage implements OnInit {
   }
 
   casilla(ev: any) {
+    if (this.turno === 'negras') {
+      for (let i = 0; i < Array.from(this.posicionBlancas).length; i++) {
+        const elemento = document.getElementById(Array.from(this.posicionBlancas)[i]) as HTMLElement
+        if (!!elemento) {
+          let img = elemento.querySelector("img") as HTMLImageElement;
+          if (!!img) {
+            img.classList.add('anularEventos');
+          }
+
+        }
+      };
+      for (let i = 0; i < Array.from(this.posicionNegras).length; i++) {
+        const elemento = document.getElementById(Array.from(this.posicionNegras)[i]) as HTMLElement
+        if (!!elemento) {
+          let img = elemento.querySelector("img") as HTMLImageElement;
+          if (!!img) {
+            img.classList.remove('anularEventos');
+          }
+
+        }
+      };
+    } else {
+      for (let i = 0; i < Array.from(this.posicionNegras).length; i++) {
+        const elemento = document.getElementById(Array.from(this.posicionNegras)[i]) as HTMLElement
+        if (!!elemento) {
+          let img = elemento.querySelector("img") as HTMLImageElement;
+          if (!!img) {
+            img.classList.add('anularEventos');
+          }
+
+        }
+      };
+      for (let i = 0; i < Array.from(this.posicionBlancas).length; i++) {
+        const elemento = document.getElementById(Array.from(this.posicionBlancas)[i]) as HTMLElement
+        if (!!elemento) {
+          let img = elemento.querySelector("img") as HTMLImageElement;
+          if (!!img) {
+            img.classList.remove('anularEventos');
+          }
+
+        }
+      };
+    }
+    this.tableroCompleto = [
+      ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
+      ['PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro'],
+      ['', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', ''],
+      ['PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco'],
+      ['TorreBlanca', 'CaballoBlanco', 'AlfilBlanco', 'ReinaBlanca', 'ReyBlanco', 'AlfilBlanco', 'CaballoBlanco', 'TorreBlanca']
+    ];
     if (this.PiezaAnterior?.id === 'ReyNegro') {
       this.reyNegroMovio = true;
     }
@@ -342,10 +395,11 @@ export class AjedrezPage implements OnInit {
           }
         }
       }
+      console.log(ev.target);
+      
+     console.log(idCasilla);
+     
       this.jugadas.push(idCasilla);
-      console.log(idCasilla);
-      console.log(this.informacionAnterior);
-
       this.validaComerAlPaso(idCasilla, this.informacionAnterior);
       this.ultimaPiezaMovida = this.PiezaAnterior;
       let numero1: number = parseInt(numeroConvertido[0]);
@@ -370,7 +424,6 @@ export class AjedrezPage implements OnInit {
   movRey(datos: datosPieza) {
     let casilla: any;
     let datosPiezaAtacada: datosPieza;
-    console.log(datos);
     let x = this.conversorLetraNumero(datos.casilla);
     this.unaPiezaEsAtacada = false;
     datos.moverse = true;
@@ -479,7 +532,6 @@ export class AjedrezPage implements OnInit {
         let img = casilla.querySelector("img") as HTMLImageElement;
         if (!!img) {
           datosPiezaAtacada = JSON.parse(img.id)
-          console.log(datos.color, datosPiezaAtacada.color);
           if (datosPiezaAtacada.color !== datos.color) {
             datos.moverse = true;
             this.unaPiezaEsAtacada = true;
@@ -527,7 +579,6 @@ export class AjedrezPage implements OnInit {
     x1 = x1 - 1;
     a1_x2 = x2;
     a2_x2 = x2;
-    console.log(x2);
     a1_x2++;
     a2_x2--;
     if (x1 >= 0 && x1 <= 8) {
@@ -591,8 +642,6 @@ export class AjedrezPage implements OnInit {
     x2 = x2 - 1;
     let a1_x1 = x1;
     let a2_x1 = x1;
-    console.log(x1);
-
     a1_x1++;
     a2_x1--;
     if (x1 > -1 && x1 <= 8) {
@@ -632,8 +681,7 @@ export class AjedrezPage implements OnInit {
         datos.moverse = true;
         let img = casilla.querySelector("img") as HTMLImageElement;
         if (!!img) {
-          datosPiezaAtacada = JSON.parse(img.id)
-          console.log(datos.color, datosPiezaAtacada.color);
+          datosPiezaAtacada = JSON.parse(img.id);
           if (datosPiezaAtacada.color !== datos.color) {
             datos.moverse = true;
             this.unaPiezaEsAtacada = true;
@@ -695,7 +743,6 @@ export class AjedrezPage implements OnInit {
         let img = casilla.querySelector("img") as HTMLImageElement;
         if (!!img) {
           datosPiezaAtacada = JSON.parse(img.id)
-          console.log(datos.color, datosPiezaAtacada.color);
           if (datosPiezaAtacada.color !== datos.color) {
             datos.moverse = true;
             this.unaPiezaEsAtacada = true;
@@ -733,7 +780,6 @@ export class AjedrezPage implements OnInit {
         let img = casilla.querySelector("img") as HTMLImageElement;
         if (!!img) {
           datosPiezaAtacada = JSON.parse(img.id)
-          console.log(datos.color, datosPiezaAtacada.color);
           if (datosPiezaAtacada.color !== datos.color) {
             datos.moverse = true;
             this.unaPiezaEsAtacada = true;
@@ -932,7 +978,6 @@ export class AjedrezPage implements OnInit {
     x1 = x1 - 2;
     a1_x2 = x2;
     a2_x2 = x2;
-    console.log(x2);
     a1_x2++;
     a2_x2--;
     if (x1 > -1 && x1 <= 8) {
@@ -996,8 +1041,6 @@ export class AjedrezPage implements OnInit {
     x2 = x2 - 2;
     let a1_x1 = x1;
     let a2_x1 = x1;
-    console.log(x1);
-
     a1_x1++;
     a2_x1--;
     if (x1 > -1 && x1 <= 8) {
@@ -1038,7 +1081,6 @@ export class AjedrezPage implements OnInit {
         let img = casilla.querySelector("img") as HTMLImageElement;
         if (!!img) {
           datosPiezaAtacada = JSON.parse(img.id)
-          console.log(datos.color, datosPiezaAtacada.color);
           if (datosPiezaAtacada.color !== datos.color) {
             datos.moverse = true;
             this.unaPiezaEsAtacada = true;
@@ -1121,7 +1163,6 @@ export class AjedrezPage implements OnInit {
   movTorre(datos: datosPieza) {
     let casilla: any;
     let datosPiezaAtacada: datosPieza;
-    console.log(datos);
     let x = this.conversorLetraNumero(datos.casilla);
     this.unaPiezaEsAtacada = false;
     datos.moverse = true;
@@ -1809,5 +1850,6 @@ export class AjedrezPage implements OnInit {
   }
   reiniciar(){
     this.piezas = this.tableroCompleto;
+    this.numeroTurno = 0;
   }
 }

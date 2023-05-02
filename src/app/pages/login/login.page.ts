@@ -30,6 +30,6 @@ export class LoginPage implements OnInit {
   }
 
   llenarFormularioLogin(){
-    return true;
+    return false;
   }
 }
