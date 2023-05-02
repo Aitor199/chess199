@@ -31,7 +31,9 @@ export class CabeceraComponent {
 
   cuenta(){}
   ajustes(){}
-  cerrarSesion(){}
+  cerrarSesion(){
+    this.router.navigate(['/login']);
+  }
   acercaDe(){}
   
 }

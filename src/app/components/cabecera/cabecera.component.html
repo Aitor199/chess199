@@ -1,7 +1,7 @@
 <ion-header mode="ios">
   <ion-toolbar>
     <ion-buttons *ngIf="ex !== 'inicio'" slot="start">
-      <ion-back-button defaultHref="/" text="Volver"></ion-back-button>
+      <ion-back-button defaultHref="/" (click)="back()" text="Volver"></ion-back-button>
     </ion-buttons>
     <ion-title style="background-color: #57C5B6;">
       Chess199

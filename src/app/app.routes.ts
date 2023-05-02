@@ -25,10 +25,16 @@ export const routes: Routes = [
   {
     path: 'modos-damas',
     loadComponent: () => import('./pages/modos-damas/modos-damas.page').then( m => m.ModosDamasPage)
-  },  {
+  },
+  {
     path: 'ajedrez',
     loadComponent: () => import('./pages/ajedrez/ajedrez.page').then( m => m.AjedrezPage)
   },
+  {
+    path: 'registro',
+    loadComponent: () => import('./pages/registro/registro.page').then( m => m.RegistroPage)
+  },
+
 
 
 ];

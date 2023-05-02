@@ -5,19 +5,18 @@ import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-registro',
+  templateUrl: './registro.page.html',
+  styleUrls: ['./registro.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-export class LoginPage implements OnInit {
+export class RegistroPage implements OnInit {
 
   constructor(private router: Router) { }
 
   ngOnInit() {
   }
-
   login() {
     // Lógica de inicio de sesión aquí
 
@@ -26,6 +25,6 @@ export class LoginPage implements OnInit {
   }
 
   registro(){
-    this.router.navigate(['/registro']);
+    this.router.navigate(['/login']);
   }
 }

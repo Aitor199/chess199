@@ -1,0 +1,30 @@
+<ion-header class="cabecera">
+  <ion-toolbar>
+    <ion-title class="tituloCabecera animated bounceInDown">Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="paginaRegistro">
+  <div class="formulario">
+    <ion-item lines="none">
+      <ion-icon name="person-outline" slot="start"></ion-icon>
+      <ion-input type="text" name="nombre" placeholder="Nombre de usuario"></ion-input>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-icon name="mail-outline" slot="start"></ion-icon>
+      <ion-input type="email" name="email" placeholder="Email"></ion-input>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+      <ion-input type="password" name="contraseña" placeholder="Contraseña"></ion-input>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+      <ion-input type="password" name="Repite-contraseña" placeholder="Repite la contraseña"></ion-input>
+    </ion-item>
+    <ion-button expand="block" color="primary" class="Registro" (click)="login()">Registrase</ion-button>
+  </div>
+  <div class="registrase">
+    <p>¿Ya tienes una cuenta? <a (click)="registro()">Iniciar sesion</a></p>
+  </div>
+</ion-content>
+
