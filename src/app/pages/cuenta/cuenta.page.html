@@ -1,0 +1,29 @@
+<app-cabecera></app-cabecera>
+<ion-content>
+  <ion-card>
+    <ion-card-header >
+      <ion-card-title>Información de Cuenta de Usuario</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Nombre de Usuario</ion-label>
+          <ion-input type="text" [(ngModel)]="username"></ion-input>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="stacked">Correo Electrónico</ion-label>
+          <ion-input type="email" [(ngModel)]="email"></ion-input>
+        </ion-item>
+
+      </ion-list>
+    </ion-card-content>
+    <ion-button class="botonColor" (click)="cambiar()" expand="block" shape="round">
+      cambiar
+    </ion-button>
+  </ion-card>
+  
+</ion-content>
+
+<app-pie></app-pie>

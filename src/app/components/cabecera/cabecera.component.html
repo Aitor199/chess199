@@ -3,7 +3,7 @@
     <ion-buttons *ngIf="ex !== 'inicio'" slot="start">
       <ion-back-button defaultHref="/" (click)="back()" text="Volver"></ion-back-button>
     </ion-buttons>
-    <ion-title style="background-color: #57C5B6;">
+    <ion-title class="tituloCabecera" style="background-color: #57C5B6;">
       Chess199
     </ion-title>
     <ion-buttons slot="end">
@@ -16,10 +16,6 @@
             <ion-item (click)="cuenta()">
               <ion-label>Cuenta</ion-label>
               <ion-icon slot="end" name="person-outline" color="dark"></ion-icon>
-            </ion-item>
-            <ion-item (click)="ajustes()">
-              <ion-label>Ajustes</ion-label>
-              <ion-icon slot="end" name="settings-outline" color="primary"></ion-icon>
             </ion-item>
             <ion-item (click)="cerrarSesion()">
               <ion-label>cerrar sesion</ion-label>

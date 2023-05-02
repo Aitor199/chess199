@@ -14,7 +14,7 @@
       <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
       <ion-input type="password" name="password" placeholder="Contraseña"></ion-input>
     </ion-item>
-    <ion-button expand="block" color="primary" class="IniciarSesion" (click)="login()">Ingresar</ion-button>
+    <ion-button expand="block" [disabled]="llenarFormularioLogin" class="IniciarSesion" (click)="login()">Ingresar</ion-button>
   </div>
   <div class="registrase">
     <p>¿Necesitas una cuenta? <a (click)="registro()">Registrarse</a></p>

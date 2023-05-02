@@ -21,10 +21,13 @@ export class RegistroPage implements OnInit {
     // Lógica de inicio de sesión aquí
 
     // Navegar a la página de Dashboard
-    this.router.navigate(['/inicio']);
+    this.router.navigate(['/login']);
   }
 
   registro(){
     this.router.navigate(['/login']);
+  }
+  llenarFormularioRegistro(){
+    return true;
   }
 }

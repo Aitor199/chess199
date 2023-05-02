@@ -9,7 +9,10 @@
       </ng-container>
     </tr>
   </ion-grid>
-  
-  <ion-button expand="block" color="success" (click)="guardar()">Guardar</ion-button>
+
+  <div class="cosasDelBoton">
+    <ion-button color="success" (click)="guardar()">Guardar</ion-button>
+    <ion-button color="warning" (click)="reiniciar()">reiniciar</ion-button>
+  </div>
 </ion-content>
 <app-pie></app-pie>

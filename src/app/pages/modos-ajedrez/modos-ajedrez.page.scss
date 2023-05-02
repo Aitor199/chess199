@@ -25,8 +25,9 @@
     color: rgb(0, 0, 0);
     margin: auto;
   }
-
   ion-content {
-    --background: #159895;
+    background-image: url('/assets/icon/fondo.jpg');
+    background-size: cover;
+    background-position: center center;
   }
   

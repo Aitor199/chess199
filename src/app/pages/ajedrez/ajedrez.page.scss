@@ -8,8 +8,15 @@
   }
 
   ion-content {
-    --background: #133b3b;
+    background-image: url('/assets/icon/fondo.jpg');
+    background-size: cover;
+    background-position: center center;
   }
+
+  .cosasDelBoton{
+    text-align: center;
+  }
+
   td {
     width: 65px;
     height: 65px;
@@ -97,3 +104,4 @@
       width: 9vw;
     }
   }
+  

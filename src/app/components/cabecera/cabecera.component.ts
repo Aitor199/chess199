@@ -29,8 +29,9 @@ export class CabeceraComponent {
     this.router.navigate(['/inicio']);
   }
 
-  cuenta(){}
-  ajustes(){}
+  cuenta(){
+    this.router.navigate(['/cuenta']);
+  }
   cerrarSesion(){
     this.router.navigate(['/login']);
   }

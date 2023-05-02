@@ -1,15 +1,20 @@
 .paginaRegistro {
     height: 100%;
   }
-  
+  ion-toolbar {
+    --background: #57C5B6 !important;
+  }
+  ion-item{
+    --background: #57c5b680 !important;
+  }
   .formulario {
-    background-color: #3c83d4;
-    border-radius: 5px;
+    background-color: rgba(11, 112, 206, 0.349);
+    border-radius: 15px;
     padding: 30px;
     margin: 20px auto 0;
     width: 80%;
     max-width: 400px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
   
   ion-icon {
@@ -22,6 +27,7 @@
   
   .Registro {
     margin-top: 20px;
+    --background: #fa6e6e;
   }
   
   .registrase {
@@ -42,7 +48,9 @@
     }
   }
   ion-content {
-    --background: #159895;
+    background-image: url('/assets/icon/fondo.jpg');
+    background-size: cover;
+    background-position: center center;
   }
   .cabecera {
     --background: transparent;
@@ -56,7 +64,6 @@
     font-size: 28px;
     font-weight: 700;
     text-align: center;
-    margin-top: 20px;
     text-shadow: 2px 2px #727272;
   }
   
