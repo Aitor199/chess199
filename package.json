@@ -25,6 +25,7 @@
     "@capacitor/keyboard": "4.1.1",
     "@capacitor/status-bar": "4.1.1",
     "@ionic/angular": "^7.0.0",
+    "@shopify/draggable": "^1.0.0-beta.8",
     "d3": "^7.8.4",
     "ionicons": "^7.0.0",
     "rxjs": "~7.5.0",

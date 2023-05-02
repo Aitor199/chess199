@@ -48,6 +48,7 @@ export class AjedrezPage implements OnInit {
   opcionAComerAlPaso: boolean = false;
   reyBlancoMovio: boolean = false;
   reyNegroMovio: boolean = false;
+  jugadas: string[] = [];
   piezas = [
     ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
     ['PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro'],
@@ -254,12 +255,12 @@ export class AjedrezPage implements OnInit {
   }
 
   casilla(ev: any) {
-    if(this.PiezaAnterior.id === 'ReyNegro'){
-this.reyNegroMovio = true;
+    if (this.PiezaAnterior?.id === 'ReyNegro') {
+      this.reyNegroMovio = true;
     }
-    if(this.PiezaAnterior.id === 'ReyBlanco'){
+    if (this.PiezaAnterior?.id === 'ReyBlanco') {
       this.reyBlancoMovio = true;
-          }
+    }
     const idCasilla = ev.target.id;
     const existeClase = document.getElementById(idCasilla);
     if (this.informacionAnterior?.casilla === 'e1' && this.informacionAnterior?.id === 'ReyBlanco' && idCasilla === 'g1') {
@@ -331,6 +332,7 @@ this.reyNegroMovio = true;
           }
         }
       }
+      this.jugadas.push(idCasilla);
       console.log(idCasilla);
       console.log(this.informacionAnterior);
 
@@ -1461,7 +1463,8 @@ this.reyNegroMovio = true;
         }
         numero++;
         casilla = document.getElementById(letra + numero);
-        if (!!casilla) {
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (img === undefined || img === null ) {
           casilla.classList.add('posibilidades');
         }
       } else if (datos.id === 'PeonBlanco' && datos.casilla[1] !== '2') {
@@ -1490,7 +1493,8 @@ this.reyNegroMovio = true;
         }
         numero--;
         casilla = document.getElementById(letra + numero);
-        if (!!casilla) {
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (img === undefined || img === null ) {
           casilla.classList.add('posibilidades');
         }
       } else if (datos.id === 'PeonNegro' && datos.casilla[1] !== '7') {
@@ -1789,5 +1793,8 @@ this.reyNegroMovio = true;
       case '77': return 'h1';
       default: return '';
     }
+  }
+  guardar(){
+
   }
 }

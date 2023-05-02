@@ -27,4 +27,10 @@ export class ModosAjedrezPage implements OnInit {
     this.router.navigate(['/ajedrez']);
   }
 
+  guardado(){
+    return true;
+  }
+  PartidaGuardada(){
+    
+  }
 }

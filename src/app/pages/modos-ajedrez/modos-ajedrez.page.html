@@ -18,6 +18,14 @@
           </ion-card-header>
         </ion-card>
       </ion-col>
+      <ion-col size-md="6" size-lg="6" size="6">
+        <ion-card [disabled]="guardado()" ion-button class="card-link" (click)="PartidaGuardada()">
+          <img src="assets/icon/personVSperson.jpg" />
+          <ion-card-header style="background-color: #3c83d4;">
+            <ion-card-title>Guardado</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
