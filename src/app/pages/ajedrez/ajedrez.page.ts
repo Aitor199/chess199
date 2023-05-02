@@ -395,8 +395,7 @@ export class AjedrezPage implements OnInit {
           }
         }
       }
-      console.log(ev.target);
-      
+ 
      console.log(idCasilla);
      
       this.jugadas.push(idCasilla);
