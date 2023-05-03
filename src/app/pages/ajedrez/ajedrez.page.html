@@ -1,14 +1,16 @@
 <app-cabecera></app-cabecera>
 <ion-content>
-  <ion-grid class="board">
+  <div class="board">
     <tr *ngFor="let col of columnas; let i = index">
       <ng-container *ngFor="let fil of filas; let j = index">
         <td [id]="nombreCasilla" [class.white]="generaTablero(col, fil)" (click)="casilla($event)">
-          <img (mouseout)="mouseout($event)" (mouseenter)="mouseenter($event)" (click)="pieza($event)" *ngIf="piezas[i][j]" class="imgPiezas" class="pieza"  [id]="idPieza | json" src="../../../assets/piezas/{{piezas[i][j]}}.png" alt="{{piezas[i][j]}}" draggable="false">
+          <img (mouseout)="mouseout($event)" (mouseenter)="mouseenter($event)" (click)="pieza($event)"
+            *ngIf="piezas[i][j]" class="imgPiezas" class="pieza" [id]="idPieza | json"
+            src="../../../assets/piezas/{{piezas[i][j]}}.png" alt="{{piezas[i][j]}}" draggable="false">
         </td>
       </ng-container>
     </tr>
-  </ion-grid>
+  </div>
 
   <div class="cosasDelBoton">
     <ion-button color="success" (click)="guardar()">Guardar</ion-button>

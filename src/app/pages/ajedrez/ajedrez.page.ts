@@ -1848,6 +1848,7 @@ export class AjedrezPage implements OnInit {
 
   }
   reiniciar(){
+    this.borrarPosibilidades();
     this.piezas = this.tableroCompleto;
     this.numeroTurno = 0;
   }

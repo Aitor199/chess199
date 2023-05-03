@@ -1,20 +1,27 @@
 .board {
-    width: 40vw;
-    height: 40vw;
+    width: fit-content;
+    height: auto;
     table-layout: fixed;
     border-collapse: collapse;
     margin: auto;
     margin-top: 1%;
   }
 
+  .board tr{
+    width: 100%;
+  }
+
   ion-content {
     background-image: url('/assets/icon/fondo.jpg');
     background-size: cover;
     background-position: center center;
+    display: flex;
+    align-items: center;
   }
 
   .cosasDelBoton{
     text-align: center;
+    margin-top: 10px;
   }
 
   td {
