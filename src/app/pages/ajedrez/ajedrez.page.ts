@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonPopover, IonicModule } from '@ionic/angular';
+import { ActionSheetController, IonPopover, IonicModule } from '@ionic/angular';
 import { TableroComponent } from 'src/app/components/tablero/tablero.component';
 import { CabeceraComponent } from 'src/app/components/cabecera/cabecera.component';
 import { PieComponent } from 'src/app/components/pie/pie.component';
@@ -70,7 +70,7 @@ export class AjedrezPage implements OnInit {
     ['TorreBlanca', 'CaballoBlanco', 'AlfilBlanco', 'ReinaBlanca', 'ReyBlanco', 'AlfilBlanco', 'CaballoBlanco', 'TorreBlanca']
   ];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private actionSheetCtrl: ActionSheetController) { }
 
   ngOnInit() {
     this.posicionBlancas = new Set;
@@ -395,7 +395,14 @@ export class AjedrezPage implements OnInit {
           }
         }
       }
-     
+      console.log(this.informacionAnterior);
+      console.log(idCasilla);
+
+      if (this.informacionAnterior?.id === 'PeonBlanco' && idCasilla[1] === '8') {
+        console.log('jamon');
+        this.presentActionSheet();
+
+      }
       this.jugadas.push(idCasilla);
       this.validaComerAlPaso(idCasilla, this.informacionAnterior);
       this.ultimaPiezaMovida = this.PiezaAnterior;
@@ -416,6 +423,38 @@ export class AjedrezPage implements OnInit {
       this.numeroTurno++;
 
     }
+  }
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Actions',
+      backdropDismiss:false,
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          icon: 'assets/svg/CaballoBlanco.svg',
+          data: {
+            action: 'delete',
+            
+          },
+        },
+        {
+          text: 'Share',
+          data: {
+            action: 'share',
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          data: {
+            action: 'cancel',
+          },
+        },
+      ],
+    });
+
+    await actionSheet.present();
   }
 
   movRey(datos: datosPieza) {
@@ -466,9 +505,6 @@ export class AjedrezPage implements OnInit {
       casilla = document.getElementById('c1');
       casilla.classList.add('posibilidades');
     }
-
-
-
 
     hayAlfil = this.conversorLetraNumero('f8');
     n1 = Number(hayAlfil[0]);
@@ -1512,7 +1548,7 @@ export class AjedrezPage implements OnInit {
         numero++;
         casilla = document.getElementById(letra + numero);
         let img = casilla.querySelector("img") as HTMLImageElement;
-        if (img === undefined || img === null ) {
+        if (img === undefined || img === null) {
           casilla.classList.add('posibilidades');
         }
       } else if (datos.id === 'PeonBlanco' && datos.casilla[1] !== '2') {
@@ -1542,7 +1578,7 @@ export class AjedrezPage implements OnInit {
         numero--;
         casilla = document.getElementById(letra + numero);
         let img = casilla.querySelector("img") as HTMLImageElement;
-        if (img === undefined || img === null ) {
+        if (img === undefined || img === null) {
           casilla.classList.add('posibilidades');
         }
       } else if (datos.id === 'PeonNegro' && datos.casilla[1] !== '7') {
@@ -1842,10 +1878,10 @@ export class AjedrezPage implements OnInit {
       default: return '';
     }
   }
-  guardar(){
+  guardar() {
 
   }
-  reiniciar(){
+  reiniciar() {
     this.borrarPosibilidades();
     this.piezas = this.tableroCompleto;
     this.numeroTurno = 0;
