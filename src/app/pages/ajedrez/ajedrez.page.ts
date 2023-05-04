@@ -395,8 +395,6 @@ export class AjedrezPage implements OnInit {
           }
         }
       }
- 
-     console.log(idCasilla);
      
       this.jugadas.push(idCasilla);
       this.validaComerAlPaso(idCasilla, this.informacionAnterior);
