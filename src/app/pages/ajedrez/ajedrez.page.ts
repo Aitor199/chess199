@@ -437,6 +437,9 @@ export class AjedrezPage implements OnInit {
             action: 'delete',
             
           },
+          handler:(()=>{
+            
+          })
         },
         {
           text: 'Share',
@@ -455,6 +458,7 @@ export class AjedrezPage implements OnInit {
     });
 
     await actionSheet.present();
+    await actionSheet.onDidDismiss();
   }
 
   movRey(datos: datosPieza) {
