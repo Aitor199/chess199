@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActionSheetController, IonPopover, IonicModule } from '@ionic/angular';
+import { ActionSheetController, AlertController, IonPopover, IonicModule } from '@ionic/angular';
 import { TableroComponent } from 'src/app/components/tablero/tablero.component';
 import { CabeceraComponent } from 'src/app/components/cabecera/cabecera.component';
 import { PieComponent } from 'src/app/components/pie/pie.component';
@@ -25,7 +25,6 @@ interface datosPieza {
 
 export class AjedrezPage implements OnInit {
 
-  public backCasilla: string = "prueba";
   public idPieza!: datosPieza;
   public PiezaAnterior!: datosPieza;
   public ultimoMovimiento: any;
@@ -45,9 +44,6 @@ export class AjedrezPage implements OnInit {
   public opcionAComerAlPaso: boolean = false;
   public reyBlancoMovio: boolean = false;
   public reyNegroMovio: boolean = false;
-  public jugadas: string[] = [];
-  public ExisteReyBlanco: boolean = true;
-  public ExisteReyNegro: boolean = true;
   public tableroCompleto = [
     ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
     ['PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro'],
@@ -68,8 +64,7 @@ export class AjedrezPage implements OnInit {
     ['PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco'],
     ['TorreBlanca', 'CaballoBlanco', 'AlfilBlanco', 'ReinaBlanca', 'ReyBlanco', 'AlfilBlanco', 'CaballoBlanco', 'TorreBlanca']
   ];
-
-  constructor(private router: Router, private actionSheetCtrl: ActionSheetController) { }
+  constructor(private router: Router, private actionSheetCtrl: ActionSheetController, private alertC: AlertController) { }
 
   ngOnInit() {
     this.posicionBlancas = new Set;
@@ -156,6 +151,7 @@ export class AjedrezPage implements OnInit {
       };
     }
 
+
     this.idPieza = {
       id: this.piezas[posicion1][posicion2],
       casilla: this.nombreCasilla,
@@ -164,6 +160,55 @@ export class AjedrezPage implements OnInit {
     }
     return (row % 2 === 0 && this.filas.indexOf(col) % 2 === 0) ||
       (row % 2 === 1 && this.filas.indexOf(col) % 2 === 1);
+  }
+
+  espera() {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 50);
+    });
+  }
+
+  async funcionConEspera() {
+    await this.espera();
+    if (this.comprobarGanador()) {
+      if (this.informacionAnterior.color === 'blanco') {
+        const alert = await this.alertC.create({
+          header: `Ha ganado el jugador de las piezas blancas`,
+          mode: 'ios',
+          backdropDismiss: false,
+          buttons: [
+            {
+              text: `Aceptar`,
+              cssClass: '',
+              handler: () => {
+                this.reiniciar() 
+              }
+            }
+          ]
+        });
+        await alert.present();
+      }
+      if (this.informacionAnterior.color === 'negro') {
+        const alert = await this.alertC.create({
+          header: `Ha ganado el jugador de las piezas negras`,
+          mode: 'ios',
+          backdropDismiss: false,
+          buttons: [
+            {
+              text: `Aceptar`,
+              cssClass: '',
+              handler: () => {
+                this.reiniciar() 
+              }
+            }
+          ]
+        });
+        await alert.present();
+      }
+    }
+
   }
 
   async pieza(ev: any) {
@@ -272,6 +317,7 @@ export class AjedrezPage implements OnInit {
   }
 
   casilla(ev: any) {
+    this.funcionConEspera();
     if (this.turno === 'negras') {
       for (let i = 0; i < Array.from(this.posicionBlancas).length; i++) {
         const elemento = document.getElementById(Array.from(this.posicionBlancas)[i]) as HTMLElement
@@ -401,17 +447,8 @@ export class AjedrezPage implements OnInit {
             }
           }
         }
-      }  
-      if (this.comprobarGanador()) {
-        console.log('valida');
-
-        if (this.informacionAnterior.id.includes('blanco') || this.informacionAnterior.id.includes('blancas')) {
-          console.log('gano blanco');
-
-        }
       }
 
-      this.jugadas.push(idCasilla);
       this.validaComerAlPaso(idCasilla, this.informacionAnterior);
       this.ultimaPiezaMovida = this.PiezaAnterior;
       let numero1: number = parseInt(numeroConvertido[0]);
@@ -446,6 +483,7 @@ export class AjedrezPage implements OnInit {
     let x2: number = parseInt(numeroConvertido[1]);
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Selecione la pieza en la que deseas coronar',
+      mode: 'ios',
       backdropDismiss: false,
       buttons: [
         {
@@ -488,6 +526,7 @@ export class AjedrezPage implements OnInit {
     let x2: number = parseInt(numeroConvertido[1]);
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Selecione la pieza en la que deseas coronar',
+      mode: 'ios',
       backdropDismiss: false,
       buttons: [
         {
@@ -1390,7 +1429,7 @@ export class AjedrezPage implements OnInit {
   }
 
 
-  movAlfil(datos: datosPieza) {
+  movAlfil(datos: datosPieza) {         
     let casilla: any;
     let datosPiezaAtacada: datosPieza;
     let x = this.conversorLetraNumero(datos.casilla);
@@ -1782,30 +1821,24 @@ export class AjedrezPage implements OnInit {
     for (let i = 0; i < 8; i++) {
       for (let j = 0; j < 8; j++) {
         let casilla: any = document.getElementById(this.filas[i] + this.columnas[j]);
-
         casilla.classList.remove('posibilidades');
+        let img = casilla.querySelector("img") as HTMLImageElement;
+        if (!!img) {
+          img.classList.remove('anularEventos');
+        }
       }
-
     }
-
   }
 
-  comprobarGanador() {
+  comprobarGanador() {  
     let existeReyBlanco = false;
     let existeReyNegro = false;
-
-    console.log(this.piezas);
     this.piezas.forEach(fila => {
-      console.log(fila);
-
       fila.find(col => {
-
         if (col === 'ReyBlanco') {
-          console.log('rey blanco existe');
           existeReyBlanco = true;
         }
         if (col === 'ReyNegro') {
-          console.log('rey negro existe');
           existeReyNegro = true;
         }
       })
@@ -1813,8 +1846,6 @@ export class AjedrezPage implements OnInit {
 
     return (!existeReyBlanco || !existeReyNegro);
   }
-
-
 
   conversorLetraNumero(posicion: string) {
     switch (posicion) {
