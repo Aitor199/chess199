@@ -396,13 +396,8 @@ export class AjedrezPage implements OnInit {
         }
       }
       console.log(this.informacionAnterior);
-      console.log(idCasilla);
 
-      if (this.informacionAnterior?.id === 'PeonBlanco' && idCasilla[1] === '8') {
-        console.log('jamon');
-        this.presentActionSheet();
 
-      }
       this.jugadas.push(idCasilla);
       this.validaComerAlPaso(idCasilla, this.informacionAnterior);
       this.ultimaPiezaMovida = this.PiezaAnterior;
@@ -413,6 +408,10 @@ export class AjedrezPage implements OnInit {
       numero2 = parseInt(this.conversorLetraNumero(idCasilla)[1]);
       this.borrarPosibilidades();
       let letra = String(numero1) + String(numero2);
+            if (this.informacionAnterior?.id === 'PeonBlanco' && idCasilla[1] === '8') {
+        this.presentActionSheet(idCasilla);
+
+      }
       if (this.piezas[numero1][numero2] !== '' && this.turno === 'blancas') {
         this.posicionNegras.delete(this.conversorNumeroLetra(letra));
       } else if (this.piezas[numero1][numero2] !== '' && this.turno === 'negras') {
@@ -424,35 +423,41 @@ export class AjedrezPage implements OnInit {
 
     }
   }
-  async presentActionSheet() {
+  async presentActionSheet(idCasilla: string) {
+    let numeroConvertido = this.conversorLetraNumero(idCasilla);
+    let x1: number = parseInt(numeroConvertido[0]);
+    let x2: number = parseInt(numeroConvertido[1]);
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Actions',
+      header: 'Selecione la pieza en la que deseas coronar',
       backdropDismiss:false,
       buttons: [
         {
-          text: 'Delete',
-          role: 'destructive',
-          icon: 'assets/svg/CaballoBlanco.svg',
-          data: {
-            action: 'delete',
-            
-          },
+          text: 'Dama',
+          icon: 'assets/svg/ReinaBlanca.svg',
           handler:(()=>{
-            
+            this.piezas[x1][x2] = 'ReinaBlanca';
           })
         },
         {
-          text: 'Share',
-          data: {
-            action: 'share',
-          },
+          text: 'Torre',
+          icon: 'assets/svg/TorreBlanca.svg',
+          handler:(()=>{
+            this.piezas[x1][x2] = 'TorreBlanca';
+          })
         },
         {
-          text: 'Cancel',
-          role: 'cancel',
-          data: {
-            action: 'cancel',
-          },
+          text: 'Alfil',
+          icon: 'assets/svg/AlfilBlanco.svg',
+          handler:(()=>{
+            this.piezas[x1][x2] = 'AlfilBlanco';
+          })
+        },
+        {
+          text: 'Caballo',
+          icon: 'assets/svg/CaballoBlanco.svg',
+          handler:(()=>{
+            this.piezas[x1][x2] = 'CaballoBlanco';
+          })
         },
       ],
     });
