@@ -12,10 +12,7 @@ interface datosPieza {
   id: string,
   casilla: string,
   color: string,
-  jaque?: boolean,
-  puedeComer?: boolean,
   moverse?: boolean,
-  enroque?: boolean
 }
 
 @Component({
@@ -28,28 +25,30 @@ interface datosPieza {
 
 export class AjedrezPage implements OnInit {
 
-  backCasilla: string = "prueba";
-  idPieza!: datosPieza;
-  PiezaAnterior!: datosPieza;
-  ultimoMovimiento: any;
-  columnas = [8, 7, 6, 5, 4, 3, 2, 1];
-  filas = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-  nombreCasilla = '';
-  colorPieza = '';
-  turno = '';
-  numeroTurno = 0;
-  posicionBlancas!: Set<string>;
-  posicionNegras!: Set<string>;
-  peonUltimaFila: boolean = false;
-  unaPiezaEsAtacada: boolean = false;
-  informacionAnterior!: datosPieza;
-  salidaDoble: boolean = false;
-  ultimaPiezaMovida!: datosPieza;
-  opcionAComerAlPaso: boolean = false;
-  reyBlancoMovio: boolean = false;
-  reyNegroMovio: boolean = false;
-  jugadas: string[] = [];
-  tableroCompleto = [
+  public backCasilla: string = "prueba";
+  public idPieza!: datosPieza;
+  public PiezaAnterior!: datosPieza;
+  public ultimoMovimiento: any;
+  public columnas = [8, 7, 6, 5, 4, 3, 2, 1];
+  public filas = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  public nombreCasilla = '';
+  public colorPieza = '';
+  public turno = '';
+  public numeroTurno = 0;
+  public posicionBlancas!: Set<string>;
+  public posicionNegras!: Set<string>;
+  public peonUltimaFila: boolean = false;
+  public unaPiezaEsAtacada: boolean = false;
+  public informacionAnterior!: datosPieza;
+  public salidaDoble: boolean = false;
+  public ultimaPiezaMovida!: datosPieza;
+  public opcionAComerAlPaso: boolean = false;
+  public reyBlancoMovio: boolean = false;
+  public reyNegroMovio: boolean = false;
+  public jugadas: string[] = [];
+  public ExisteReyBlanco: boolean = true;
+  public ExisteReyNegro: boolean = true;
+  public tableroCompleto = [
     ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
     ['PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro'],
     ['', '', '', '', '', '', '', ''],
@@ -59,7 +58,7 @@ export class AjedrezPage implements OnInit {
     ['PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco', 'PeonBlanco'],
     ['TorreBlanca', 'CaballoBlanco', 'AlfilBlanco', 'ReinaBlanca', 'ReyBlanco', 'AlfilBlanco', 'CaballoBlanco', 'TorreBlanca']
   ];
-  piezas = [
+  public piezas = [
     ['TorreNegra', 'CaballoNegro', 'AlfilNegro', 'ReinaNegra', 'ReyNegro', 'AlfilNegro', 'CaballoNegro', 'TorreNegra'],
     ['PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro', 'PeonNegro'],
     ['', '', '', '', '', '', '', ''],
@@ -161,15 +160,13 @@ export class AjedrezPage implements OnInit {
       id: this.piezas[posicion1][posicion2],
       casilla: this.nombreCasilla,
       color: this.colorPieza,
-      puedeComer: false,
       moverse: true,
-      enroque: false
     }
     return (row % 2 === 0 && this.filas.indexOf(col) % 2 === 0) ||
       (row % 2 === 1 && this.filas.indexOf(col) % 2 === 1);
   }
 
-  pieza(ev: any) {
+  async pieza(ev: any) {
 
     this.borrarPosibilidades();
     const datosPieza: datosPieza = JSON.parse(ev.target.id);
@@ -180,30 +177,36 @@ export class AjedrezPage implements OnInit {
     if (this.turno === 'blancas' && datosPieza.id.includes('Peon')) {
       if (datosPieza.id === 'PeonBlanco') {
         this.movPeon(datosPieza);
+
       }
     } else if (this.turno === 'negras' && datosPieza.id.includes('Peon')) {
       if (datosPieza.id === 'PeonNegro') {
         this.movPeon(datosPieza);
+
       }
     }
 
     if (this.turno === 'blancas' && datosPieza.id.includes('Alfil')) {
       if (datosPieza.id === 'AlfilBlanco') {
         this.movAlfil(datosPieza);
+
       }
     } else if (this.turno === 'negras' && datosPieza.id.includes('Alfil')) {
       if (datosPieza.id === 'AlfilNegro') {
         this.movAlfil(datosPieza);
+
       }
     }
 
     if (this.turno === 'blancas' && datosPieza.id.includes('Torre')) {
       if (datosPieza.id === 'TorreBlanca') {
         this.movTorre(datosPieza);
+
       }
     } else if (this.turno === 'negras' && datosPieza.id.includes('Torre')) {
       if (datosPieza.id === 'TorreNegra') {
         this.movTorre(datosPieza);
+
       }
     }
 
@@ -211,11 +214,13 @@ export class AjedrezPage implements OnInit {
       if (datosPieza.id === 'ReinaBlanca') {
         this.movTorre(datosPieza);
         this.movAlfil(datosPieza);
+
       }
     } else if (this.turno === 'negras' && datosPieza.id.includes('Reina')) {
       if (datosPieza.id === 'ReinaNegra') {
         this.movTorre(datosPieza);
         this.movAlfil(datosPieza);
+
       }
     }
 
@@ -223,24 +228,26 @@ export class AjedrezPage implements OnInit {
     if (this.turno === 'blancas' && datosPieza.id.includes('Caballo')) {
       if (datosPieza.id === 'CaballoBlanco') {
         this.movCaballo(datosPieza);
+
       }
     } else if (this.turno === 'negras' && datosPieza.id.includes('Caballo')) {
       if (datosPieza.id === 'CaballoNegro') {
         this.movCaballo(datosPieza);
+
       }
     }
 
     if (this.turno === 'blancas' && datosPieza.id.includes('Rey')) {
       if (datosPieza.id === 'ReyBlanco') {
         this.movRey(datosPieza);
+
       }
     } else if (this.turno === 'negras' && datosPieza.id.includes('Rey')) {
       if (datosPieza.id === 'ReyNegro') {
         this.movRey(datosPieza);
+
       }
     }
-
-
   }
 
   mouseout(ev: any) {
@@ -394,9 +401,15 @@ export class AjedrezPage implements OnInit {
             }
           }
         }
-      }
-      console.log(this.informacionAnterior);
+      }  
+      if (this.comprobarGanador()) {
+        console.log('valida');
 
+        if (this.informacionAnterior.id.includes('blanco') || this.informacionAnterior.id.includes('blancas')) {
+          console.log('gano blanco');
+
+        }
+      }
 
       this.jugadas.push(idCasilla);
       this.validaComerAlPaso(idCasilla, this.informacionAnterior);
@@ -408,8 +421,12 @@ export class AjedrezPage implements OnInit {
       numero2 = parseInt(this.conversorLetraNumero(idCasilla)[1]);
       this.borrarPosibilidades();
       let letra = String(numero1) + String(numero2);
-            if (this.informacionAnterior?.id === 'PeonBlanco' && idCasilla[1] === '8') {
-        this.presentActionSheet(idCasilla);
+      if (this.informacionAnterior?.id === 'PeonBlanco' && idCasilla[1] === '8') {
+        this.coronacionBlancas(idCasilla);
+
+      }
+      if (this.informacionAnterior?.id === 'PeonNegro' && idCasilla[1] === '1') {
+        this.coronacionNegras(idCasilla);
 
       }
       if (this.piezas[numero1][numero2] !== '' && this.turno === 'blancas') {
@@ -423,39 +440,39 @@ export class AjedrezPage implements OnInit {
 
     }
   }
-  async presentActionSheet(idCasilla: string) {
+  async coronacionBlancas(idCasilla: string) {
     let numeroConvertido = this.conversorLetraNumero(idCasilla);
     let x1: number = parseInt(numeroConvertido[0]);
     let x2: number = parseInt(numeroConvertido[1]);
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Selecione la pieza en la que deseas coronar',
-      backdropDismiss:false,
+      backdropDismiss: false,
       buttons: [
         {
           text: 'Dama',
           icon: 'assets/svg/ReinaBlanca.svg',
-          handler:(()=>{
+          handler: (() => {
             this.piezas[x1][x2] = 'ReinaBlanca';
           })
         },
         {
           text: 'Torre',
           icon: 'assets/svg/TorreBlanca.svg',
-          handler:(()=>{
+          handler: (() => {
             this.piezas[x1][x2] = 'TorreBlanca';
           })
         },
         {
           text: 'Alfil',
           icon: 'assets/svg/AlfilBlanco.svg',
-          handler:(()=>{
+          handler: (() => {
             this.piezas[x1][x2] = 'AlfilBlanco';
           })
         },
         {
           text: 'Caballo',
           icon: 'assets/svg/CaballoBlanco.svg',
-          handler:(()=>{
+          handler: (() => {
             this.piezas[x1][x2] = 'CaballoBlanco';
           })
         },
@@ -465,7 +482,48 @@ export class AjedrezPage implements OnInit {
     await actionSheet.present();
     await actionSheet.onDidDismiss();
   }
+  async coronacionNegras(idCasilla: string) {
+    let numeroConvertido = this.conversorLetraNumero(idCasilla);
+    let x1: number = parseInt(numeroConvertido[0]);
+    let x2: number = parseInt(numeroConvertido[1]);
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Selecione la pieza en la que deseas coronar',
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'Dama',
+          icon: 'assets/svg/ReinaBlanca.svg',
+          handler: (() => {
+            this.piezas[x1][x2] = 'ReinaNegra';
+          })
+        },
+        {
+          text: 'Torre',
+          icon: 'assets/svg/TorreBlanca.svg',
+          handler: (() => {
+            this.piezas[x1][x2] = 'TorreNegra';
+          })
+        },
+        {
+          text: 'Alfil',
+          icon: 'assets/svg/AlfilBlanco.svg',
+          handler: (() => {
+            this.piezas[x1][x2] = 'AlfilNegro';
+          })
+        },
+        {
+          text: 'Caballo',
+          icon: 'assets/svg/CaballoBlanco.svg',
+          handler: (() => {
+            this.piezas[x1][x2] = 'CaballoNegro';
+          })
+        },
+      ],
+    });
 
+    await actionSheet.present();
+    await actionSheet.onDidDismiss();
+  }
   movRey(datos: datosPieza) {
     let casilla: any;
     let datosPiezaAtacada: datosPieza;
@@ -1720,7 +1778,7 @@ export class AjedrezPage implements OnInit {
     }
   }
 
-  borrarPosibilidades() {
+  async borrarPosibilidades() {
     for (let i = 0; i < 8; i++) {
       for (let j = 0; j < 8; j++) {
         let casilla: any = document.getElementById(this.filas[i] + this.columnas[j]);
@@ -1730,6 +1788,30 @@ export class AjedrezPage implements OnInit {
 
     }
 
+  }
+
+  comprobarGanador() {
+    let existeReyBlanco = false;
+    let existeReyNegro = false;
+
+    console.log(this.piezas);
+    this.piezas.forEach(fila => {
+      console.log(fila);
+
+      fila.find(col => {
+
+        if (col === 'ReyBlanco') {
+          console.log('rey blanco existe');
+          existeReyBlanco = true;
+        }
+        if (col === 'ReyNegro') {
+          console.log('rey negro existe');
+          existeReyNegro = true;
+        }
+      })
+    });
+
+    return (!existeReyBlanco || !existeReyNegro);
   }
 
 
