@@ -183,7 +183,7 @@ export class AjedrezPage implements OnInit {
               text: `Aceptar`,
               cssClass: '',
               handler: () => {
-                this.reiniciar() 
+                this.reiniciar()
               }
             }
           ]
@@ -200,7 +200,7 @@ export class AjedrezPage implements OnInit {
               text: `Aceptar`,
               cssClass: '',
               handler: () => {
-                this.reiniciar() 
+                this.reiniciar()
               }
             }
           ]
@@ -1429,7 +1429,7 @@ export class AjedrezPage implements OnInit {
   }
 
 
-  movAlfil(datos: datosPieza) {         
+  movAlfil(datos: datosPieza) {
     let casilla: any;
     let datosPiezaAtacada: datosPieza;
     let x = this.conversorLetraNumero(datos.casilla);
@@ -1830,7 +1830,7 @@ export class AjedrezPage implements OnInit {
     }
   }
 
-  comprobarGanador() {  
+  comprobarGanador() {
     let existeReyBlanco = false;
     let existeReyNegro = false;
     this.piezas.forEach(fila => {
@@ -2007,5 +2007,7 @@ export class AjedrezPage implements OnInit {
     this.borrarPosibilidades();
     this.piezas = this.tableroCompleto;
     this.numeroTurno = 0;
+    this.posicionBlancas! = new Set();
+    this.posicionNegras! = new Set();
   }
 }
