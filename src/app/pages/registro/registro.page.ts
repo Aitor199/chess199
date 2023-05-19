@@ -28,6 +28,6 @@ export class RegistroPage implements OnInit {
     this.router.navigate(['/login']);
   }
   llenarFormularioRegistro(){
-    return true;
+    return false;
   }
 }

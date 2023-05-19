@@ -21,10 +21,10 @@
       <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
       <ion-input label=''type="password" name="Repite-contraseña" placeholder="Repite la contraseña"></ion-input>
     </ion-item>
-    <ion-button expand="block" [disabled]="llenarFormularioRegistro()" class="Registro" (click)="login()">Registrase</ion-button>
+    <ion-button expand="block" [disabled]="llenarFormularioRegistro()" class="Registro" (click)="registro()">Registrase</ion-button>
   </div>
   <div class="registrase">
-    <p>¿Ya tienes una cuenta? <a (click)="registro()">Iniciar sesion</a></p>
+    <p>¿Ya tienes una cuenta? <a (click)="login()">Iniciar sesion</a></p>
   </div>
 </ion-content>
 
